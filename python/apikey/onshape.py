@@ -17,8 +17,8 @@ import base64
 import urllib
 import datetime
 import requests
-from urlparse import urlparse
-from urlparse import parse_qs
+from urlparse.client import urlparse
+from urlparse.client import parse_qs
 
 __all__ = [
     'Onshape'
