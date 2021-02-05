@@ -2,6 +2,17 @@
 
 Simple Node.js and Python apps to demonstrate API key usage
 
+This is a fork of the official OnShape apikey repository (https://github.com/onshape/apikey). In this fork I have added
+an ClientExtended class which adds functionality to the Client class in the original repository. Extension include:
+
+- Allowing credential to be in a specified file location
+- Additional api calls for: lists of teams, parts, elements, and workspaces, setting part metadata, fetching bills of material (BOMs), paged output (Pager).
+- onshape_util - a Python-based interactive, command line (CLI) utility to run OnShape api calls.
+- api_doc_util - a Python-based interactive, command line (CLI) utility that uses onshapepy to view and export 
+documentation for the REST API.
+
+Note: There is another fork of the code with the same project name (AguaClara/onshapepy). We are working to merge the two together to get a single version with a superset of the two projects.
+
 ---
 
 ### Getting Started
