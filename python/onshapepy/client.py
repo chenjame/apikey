@@ -43,25 +43,7 @@ class Client():
 
         self._stack = stack
         self._api = Onshape(stack=stack, creds=creds, logging=logging)
-
-    def get_pub_documents_car(self, filter=4,q="car"):
-        '''
-        Get details for public documents for "car".
-
-        Args:
-            - filter = 4 (public)
-            - q = string search "car"
-
-        Returns:
-            - requests.Response: Onshape response data
-        '''
-
-        payload = {
-            'filter': 4,
-            'q': "car"
-        }
-
-        return self._api.request('get', '/api/documents/', body=payload)
+        
 
     def new_document(self, name='Test Document', owner_type=0, public=False):
         '''
