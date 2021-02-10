@@ -43,7 +43,7 @@ class Client():
 
         self._stack = stack
         self._api = Onshape(stack=stack, creds=creds, logging=logging)
-        
+
 
     def new_document(self, name='Test Document', owner_type=0, public=False):
         '''
@@ -116,9 +116,8 @@ class Client():
 
         Returns:
             - requests.Response: Onshape response data
-        '''
-
-        return self._api.request('get', '/api/documents', query)
+        '''        
+        return (self._api.request('get', '/api/documents', query))
 
     def create_assembly(self, did, wid, name='My Assembly'):
         '''

@@ -182,6 +182,7 @@ class Onshape():
         Returns:
             - requests.Response: Object containing the response from Onshape
         '''
+        data={} #data dictionary to store the request
 
         req_headers = self._make_headers(method, path, query, headers)
         if base_url is None:
@@ -192,6 +193,14 @@ class Onshape():
             utils.log(body)
             utils.log(req_headers)
             utils.log('request url: ' + url)
+            
+            ## Test writing data to json file, this only records CALL url to onshape
+            data['url'] = []
+            data['url'] = ({
+                'bodyurl': url
+            })
+            with open('data.txt','w')as outfile:
+                json.dump(data, outfile)
 
         # only parse as json string if we have to
         body = json.dumps(body) if type(body) == dict else body
@@ -218,5 +227,8 @@ class Onshape():
         else:
             if self._logging:
                 utils.log('request succeeded, details: ' + res.text)
-
+        
+        #testing json file print out for info stored:
+        print(data)
+        
         return res
