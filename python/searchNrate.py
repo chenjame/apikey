@@ -26,25 +26,30 @@ c = Client(stack=stacks['cad'], logging=True)
 
 userInput=input("Enter Keyword Search: ")
 userBase=int(input("Enter Domain Type (0, 1, 2, 3, 4): 4 for public, 0 for my docs "))
-#userBase = int(userBase)
+searchRange = int(input("Enter Number of Searches: "))
 items = {}
 
 ## Build FOR loop here for searching
-for search_offset in range(5):
-    userDiction= {'q': userInput,'filter': userBase, "limit" : 1, "offset": search_offset}
+for search_offset in range(searchRange):
+    userDiction= {'q': userInput,'filter': userBase, "limit" : searchRange, "offset": search_offset}
     
     # get document details
-    searchResults = c.list_documents(userDiction)
+    search_did = c.list_documents(userDiction)
 
-    with open('RES_OUTPUT.json') as f:
-        infile = json.load(f)
-
-    did_index = search_offset
-    items[did_index] = infile["items"][0]["id"]
-
-
+#put document ID values in json file called did_list.json
 with open("did_list.json", "w") as json_file:
     json.dump(items, json_file)
 
+#wid
+for search_offset in range(searchRange):
+    search_ws = c.get_workspaces(items[search_offset])
 
+with open("ws_list.json", "w") as json_file:
+    json.dump(items, json_file)
 
+#eid
+for search_offset in range(searchRange):
+    search_eid = c.get_elementid(items[search_offset])
+
+with open("eid_list.json", "w") as json_file:
+    json.dump(items, json_file)
