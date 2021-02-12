@@ -190,23 +190,17 @@ class Onshape():
         url = base_url + path + '?' + urlencode(query)
 
         if self._logging:
-            utils.log(body)
-            utils.log(req_headers)
-            utils.log('request url: ' + url)
+            #utils.log(body)
+            #utils.log(req_headers)
+            #utils.log('request url: ' + url)
+            ## commented out above to create silence in terminal
+            pass
             
-            ## Test writing data to json file, this only records CALL url to onshape
-            data['url'] = []
-            data['url'] = ({
-                'bodyurl': url
-            })
-            with open('data.txt','w')as outfile:
-                json.dump(data, outfile)
-
         # only parse as json string if we have to
         body = json.dumps(body) if type(body) == dict else body
 
         res = requests.request(method, url, headers=req_headers, data=body, allow_redirects=False, stream=True)
-
+        
         if res.status_code == 307:
             location = urlparse(res.headers["Location"])
             querystring = parse_qs(location.query)
@@ -226,9 +220,16 @@ class Onshape():
                 utils.log('request failed, details: ' + res.text, level=1)
         else:
             if self._logging:
-                utils.log('request succeeded, details: ' + res.text)
+                #utils.log('request succeeded, details: ' + res.text)
+                pass
+
+            with open('RES_OUTPUT.json','w')as outfile:
+                json.dump(res.json(), outfile)
+
+
         
         #testing json file print out for info stored:
-        print(data)
+        #print(data)
+        
         
         return res
