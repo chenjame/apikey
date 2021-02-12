@@ -220,3 +220,46 @@ class Client():
             'Accept': 'application/vnd.onshape.v1+octet-stream'
         }
         return self._api.request('get', '/api/partstudios/d/' + did + '/w/' + wid + '/e/' + eid + '/stl', headers=req_headers)
+
+### extra functions added ###
+    def get_bodydetails(self, did, wid, eid):
+        '''
+        Gets the tessellation of the edges of all parts in a part studio.
+
+        Args:
+            - did (str): Document ID
+            - wid (str): Workspace ID
+            - eid (str): Element ID
+
+        Returns:
+            - requests.Response: Onshape response data
+        '''
+        return self._api.request('get', '/api/partstudios/d/' + did + '/w/' + wid + '/e/' + eid + '/bodydetails')
+
+ def get_massproperties(self, did, wid, eid):
+        '''
+        Gets the tessellation of the edges of all parts in a part studio.
+
+        Args:
+            - did (str): Document ID
+            - wid (str): Workspace ID
+            - eid (str): Element ID
+
+        Returns:
+            - requests.Response: Onshape response data
+        '''
+        return self._api.request('get', '/api/partstudios/d/' + did + '/w/' + wid + '/e/' + eid + '/massproperties')
+
+def get_bom(self, did, wid, eid):
+        '''
+        Gets the tessellation of the edges of all parts in a part studio.
+
+        Args:
+            - did (str): Document ID
+            - wid (str): Workspace ID
+            - eid (str): Element ID
+
+        Returns:
+            - requests.Response: Onshape response data
+        '''
+        return self._api.request('get', '/api/assemblies/d/' + did + '/w/' + wid + '/e/' + eid + '/bom')
