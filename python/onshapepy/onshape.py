@@ -222,9 +222,10 @@ class Onshape():
             if self._logging:
                 #utils.log('request succeeded, details: ' + res.text)
                 pass
-
-            with open('RES_OUTPUT.json','w')as outfile:
-                json.dump(res.json(), outfile)
+            
+            # No longer saving request reqponse into RES_OUTPUT file, did this earlier while testing
+            #with open('RES_OUTPUT.json','w')as outfile:
+            #    json.dump(res.json(), outfile)
 
 
         

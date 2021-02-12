@@ -117,7 +117,17 @@ class Client():
         Returns:
             - requests.Response: Onshape response data
         '''        
-        return (self._api.request('get', '/api/documents', query))
+        # saves the request results into res
+        res = self._api.request('get', '/api/documents', query)
+        
+        # convert res into a json object before indexing into it on the next line
+        res = res.json()
+
+        # extracts did from results dictionary
+        did = res["items"][0]["id"]
+
+        # returns did
+        return did
 
     def create_assembly(self, did, wid, name='My Assembly'):
         '''
@@ -237,29 +247,70 @@ class Client():
         return self._api.request('get', '/api/partstudios/d/' + did + '/w/' + wid + '/e/' + eid + '/bodydetails')
 
     def get_massproperties(self, did, wid, eid):
-            '''
-            Gets the tessellation of the edges of all parts in a part studio.
+        '''
+        Gets the tessellation of the edges of all parts in a part studio.
 
-            Args:
-                - did (str): Document ID
-                - wid (str): Workspace ID
-                - eid (str): Element ID
+        Args:
+            - did (str): Document ID
+            - wid (str): Workspace ID
+            - eid (str): Element ID
 
-            Returns:
-                - requests.Response: Onshape response data
-            '''
-            return self._api.request('get', '/api/partstudios/d/' + did + '/w/' + wid + '/e/' + eid + '/massproperties')
+        Returns:
+            - requests.Response: Onshape response data
+        '''
+        return self._api.request('get', '/api/partstudios/d/' + did + '/w/' + wid + '/e/' + eid + '/massproperties')
 
     def get_bom(self, did, wid, eid):
-            '''
-            Gets the tessellation of the edges of all parts in a part studio.
+        '''
+        Gets the tessellation of the edges of all parts in a part studio.
 
-            Args:
-                - did (str): Document ID
-                - wid (str): Workspace ID
-                - eid (str): Element ID
+        Args:
+            - did (str): Document ID
+            - wid (str): Workspace ID
+            - eid (str): Element ID
 
-            Returns:
-                - requests.Response: Onshape response data
-            '''
-            return self._api.request('get', '/api/assemblies/d/' + did + '/w/' + wid + '/e/' + eid + '/bom')
+        Returns:
+            - requests.Response: Onshape response data
+        '''
+        return self._api.request('get', '/api/assemblies/d/' + did + '/w/' + wid + '/e/' + eid + '/bom')
+
+    def get_workspaces(self, did):
+        '''
+        Gets the workspace IDs.
+        
+        Args: 
+            - did (str): Document ID
+
+        Returns:
+            - list of workspace ID
+        '''
+
+        # saves the request results into res
+        res = self._api.request('get', '/api/documents/d/' + did + "/workspaces?noreadonly=false")
+        
+        # convert res into a json object before indexing into it on the next line
+        res = res.json()
+
+        # extracts did from results dictionary
+        wid = res[0]["id"]
+
+        # returns did
+        return wid
+        
+
+    
+    def get_element_list(self, did, wid):
+        '''
+        Gets the workspace ID.
+        
+        Args: 
+            - did (str): Document ID
+            - wid (str): Workspace ID
+
+        Returns:
+            - Element IDs
+        '''     
+        
+        res = self._api.request('get', '/api/documents/d/' + did + "/w/" + wid + "/elements?withThumbnails=false")
+
+        return #eid list
