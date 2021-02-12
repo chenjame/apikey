@@ -286,31 +286,56 @@ class Client():
         '''
 
         # saves the request results into res
-        res = self._api.request('get', '/api/documents/d/' + did + "/workspaces?noreadonly=false")
+        res = self._api.request('get', '/api/documents/d/' + did + "/workspaces") #?noreadonly=false")
         
         # convert res into a json object before indexing into it on the next line
         res = res.json()
-
+        
+        wid = []
+        ## Adding the loop
+        for i in range(len(res)):
+            wid.append(res[i]["id"])
+        
         # extracts did from results dictionary
-        wid = res[0]["id"]
-
-        # returns did
+        #wid = res[0]["id"]
         return wid
         
 
     
-    def get_element_list(self, did, wid):
+    def get_elements(self, did, w_list):
         '''
         Gets the workspace ID.
         
         Args: 
             - did (str): Document ID
-            - wid (str): Workspace ID
+            - w_list (str): list of Workspace ID
 
         Returns:
-            - Element IDs
-        '''     
+            - list of Element IDs
+        ''' 
+        '''
+        e_dict = {}    
+        for wid in w_list:
+            res = self._api.request('get', '/api/documents/d/' + did + "/w/" + wid + "/elements")#?withThumbnails=false")
+            # convert res into a json object before indexing into it on the next line
+            res = res.json()
         
-        res = self._api.request('get', '/api/documents/d/' + did + "/w/" + wid + "/elements?withThumbnails=false")
+            eid = []
 
-        return #eid list
+            for i in range(len(res)):
+                eid.append(res[i]["id"])
+            e_dict[wid] = eid
+        '''
+        eid_list = []
+        for wid in w_list:
+            res = self._api.request('get', '/api/documents/d/' + did + "/w/" + wid + "/elements")#?withThumbnails=false")
+            # convert res into a json object before indexing into it on the next line
+            res = res.json()
+
+            # we go through each element and add it to list if it is not present
+            for i in range(len(res)):
+                eid = res[i]["id"]
+                if eid not in eid_list:
+                    eid_list.append(eid)
+
+        return eid_list

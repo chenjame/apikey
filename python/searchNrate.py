@@ -44,17 +44,21 @@ for search_offset in range(searchRange):
     # get document details
     search_did = c.list_documents(userDiction)
     
+    # create a dictionary that will store the lists of wids and eids
+    did_components = {}
     search_ws = c.get_workspaces(search_did)
+    did_components["wid"] = search_ws
 
-    search_eid = c.get_elementid(search_did, search_ws)
-    
-    items[search_offset] = search_did
+    search_eid = c.get_elements(search_did, search_ws)
+    did_components["eid"] = search_eid
+
+    items[search_did] = did_components
 
 #put document ID values in json file called did_list.json
 with open("did_list.json", "w") as json_file:
     json.dump(items, json_file)
 
-
+'''
 #wid
 for search_offset in range(searchRange):
     search_ws = c.get_workspaces(items[search_offset])
@@ -69,3 +73,4 @@ for search_offset in range(searchRange):
 
 with open("eid_list.json", "w") as json_file:
     json.dump(items, json_file)
+'''
