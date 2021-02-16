@@ -1,13 +1,12 @@
-
-
 import json
 
-with open('practice.json') as f:
+with open('RES_OUTPUT.json') as f:
   infile = json.load(f)
 
 
-items = infile["items"][0]
-print("isEnterpriseOwned" in items)
-print(items["id"])
-#print(items)
+#items = infile["items"][0]
+#print("isEnterpriseOwned" in items)
+#print(items["id"])
+print(len(infile))
+
 

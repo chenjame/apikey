@@ -302,9 +302,9 @@ class Client():
         
 
     
-    def get_elements(self, did, w_list):
+    def element_list(self, did, w_list):
         '''
-        Gets the workspace ID.
+        Gets a list of elements given a DID and list of WIDs
         
         Args: 
             - did (str): Document ID

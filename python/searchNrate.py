@@ -24,10 +24,7 @@ c = Client(stack=stacks['cad'], logging=True)
 #did = new_doc['id']
 #wid = new_doc['defaultWorkspace']['id']
 
-userInput=input("Enter Keyword Search: ")
-userBase=int(input("Enter Domain Type (0, 1, 2, 3, 4)  4 for public, 0 for my docs: "))
-searchRange = int(input("Enter Number of Searches: ")) 
-items = {}
+
 
 '''
 Proposed master dictionary structure, to be refined
@@ -37,40 +34,57 @@ Proposed master dictionary structure, to be refined
 }
 '''
 
-## Build FOR loop here for searching
-for search_offset in range(searchRange):
-    userDiction= {'q': userInput,'filter': userBase, "limit" : searchRange, "offset": search_offset}
+
+def search_onshape_query(): 
+    ## Build FOR loop here for searching
+    userInput=input("Enter Keyword Search: ")
+    userBase=int(input("Enter Domain Type (0, 1, 2, 3, 4)  4 for public, 0 for my docs: "))
+    searchRange = int(input("Enter Number of Searches: ")) 
     
-    # get document details
-    search_did = c.list_documents(userDiction)
     
-    # create a dictionary that will store the lists of wids and eids
-    did_components = {}
-    search_ws = c.get_workspaces(search_did)
-    did_components["wid"] = search_ws
+    items = {}
+    
+    for search_offset in range(searchRange):
+        userDiction= {'q': userInput,'filter': userBase, "limit" : searchRange, "offset": search_offset}
+        
+        # get document details
+        search_did = c.list_documents(userDiction)
+        
+        # create a dictionary that will store the lists of wids and eids
+        did_components = {}
+        search_ws = c.get_workspaces(search_did)
+        did_components["wid"] = search_ws
 
-    search_eid = c.get_elements(search_did, search_ws)
-    did_components["eid"] = search_eid
+        search_eid = c.element_list(search_did, search_ws)
+        did_components["eid"] = search_eid
 
-    items[search_did] = did_components
+        
+        items[search_did] = did_components
 
-#put document ID values in json file called did_list.json
-with open("did_list.json", "w") as json_file:
-    json.dump(items, json_file)
+    #put document ID values in json file called did_list.json
+    with open("did_list.json", "w") as json_file:
+        json.dump(items, json_file)
 
-'''
-#wid
-for search_offset in range(searchRange):
-    search_ws = c.get_workspaces(items[search_offset])
+    return items
 
 
-with open("ws_list.json", "w") as json_file:
-    json.dump(items, json_file)
+def part_qty_rating(did, did_list):
 
-#eid
-for search_offset in range(searchRange):
-    search_eid = c.get_elementid(items[search_offset])
+    part_qty = len(did_list[did]["eid"])
 
-with open("eid_list.json", "w") as json_file:
-    json.dump(items, json_file)
-'''
+    return part_qty
+
+def workspaces_qty_rating(did, did_list):
+    
+    workspaces_qty = len(did_list[did]["wid"])
+
+    return workspaces_qty
+
+
+
+x = search_onshape_query()
+
+print("\n\n")
+did = list(x.keys())[0]
+print("Number of parts in this document: " + str(part_qty_rating(did, x)))
+print("Number of workspaces in this document: " + str(workspaces_qty_rating(did, x)))
