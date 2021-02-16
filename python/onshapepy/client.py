@@ -260,9 +260,10 @@ class Client():
         '''
         res = self._api.request('get', '/api/partstudios/d/' + did + '/w/' + wid + '/e/' + eid + '/massproperties')
         res = res.json() #convert res to json
-
-        massMissingCount = res[]
-        return 
+        massMissingCount = 0
+        for i in range(len(res)):
+            massMissingCount = massMissingCount + res[i][]["massMissingCount"]
+        return massMissingCount
 
     def get_bom(self, did, wid, eid):
         '''
