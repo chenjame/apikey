@@ -248,7 +248,7 @@ class Client():
 
     def get_massproperties(self, did, wid, eid):
         '''
-        Gets the tessellation of the edges of all parts in a part studio.
+        Gets mass properties of all parts and states if there are parts without any masses
 
         Args:
             - did (str): Document ID
@@ -258,7 +258,11 @@ class Client():
         Returns:
             - requests.Response: Onshape response data
         '''
-        return self._api.request('get', '/api/partstudios/d/' + did + '/w/' + wid + '/e/' + eid + '/massproperties')
+        res = self._api.request('get', '/api/partstudios/d/' + did + '/w/' + wid + '/e/' + eid + '/massproperties')
+        res = res.json() #convert res to json
+
+        massMissingCount = res[]
+        return 
 
     def get_bom(self, did, wid, eid):
         '''
