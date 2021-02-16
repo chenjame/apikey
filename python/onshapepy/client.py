@@ -16,7 +16,7 @@ import mimetypes
 import random
 import string
 import os
-
+import pandas as pd
 
 class Client():
     '''
@@ -327,6 +327,8 @@ class Client():
             e_dict[wid] = eid
         '''
         eid_list = []
+        element_type =[]
+
         for wid in w_list:
             res = self._api.request('get', '/api/documents/d/' + did + "/w/" + wid + "/elements")#?withThumbnails=false")
             # convert res into a json object before indexing into it on the next line
@@ -335,7 +337,9 @@ class Client():
             # we go through each element and add it to list if it is not present
             for i in range(len(res)):
                 eid = res[i]["id"]
+                etype = res[i]["dataType"]
                 if eid not in eid_list:
                     eid_list.append(eid)
-
-        return eid_list
+                    element_type.append(etype)
+        
+        return eid_list, element_type

@@ -1,6 +1,6 @@
 from __future__ import print_function
 import json
-
+import pandas as pd
 '''
 app
 ===
@@ -55,8 +55,10 @@ def search_onshape_query():
         search_ws = c.get_workspaces(search_did)
         did_components["wid"] = search_ws
 
-        search_eid = c.element_list(search_did, search_ws)
+        search_eid, element_type = c.element_list(search_did, search_ws)
         did_components["eid"] = search_eid
+        ##adding the element types
+        did_components["element types"] = element_type
 
         
         items[search_did] = did_components
@@ -68,11 +70,11 @@ def search_onshape_query():
     return items
 
 
-def part_qty_rating(did, did_list):
+def element_qty_rating(did, did_list):
 
-    part_qty = len(did_list[did]["eid"])
+    element_qty = len(did_list[did]["eid"])
 
-    return part_qty
+    return element_qty
 
 def workspaces_qty_rating(did, did_list):
     
@@ -80,11 +82,19 @@ def workspaces_qty_rating(did, did_list):
 
     return workspaces_qty
 
-
+def element_breakdown(did, did_list):
+    elements = pd.Series(did_list[did]["element types"])
+    counts = elements.value_counts()
+    return counts
 
 x = search_onshape_query()
 
 print("\n\n")
 did = list(x.keys())[0]
-print("Number of parts in this document: " + str(part_qty_rating(did, x)))
-print("Number of workspaces in this document: " + str(workspaces_qty_rating(did, x)))
+
+#print("Number of elements in this document: " + str(element_qty_rating(did, x)))
+#print("Number of workspaces in this document: " + str(workspaces_qty_rating(did, x)))
+#print("Element Breakdown: ")
+print(element_breakdown(did, x))
+c = element_breakdown(did, x)
+print(c["onshape/partstudio"])
