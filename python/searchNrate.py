@@ -86,6 +86,34 @@ def get_mass_properties(did, did_list):
 
     return noMass
 
+def feature_tree_count(did, id_list):
+    # looking at one specific DID, tries all the WID & EID combos within the DID and gets a master count of how many 
+    # features and types of features there are 
+    feature_count = 0
+    feature_types = []
+
+    # looks inside the did_list.json file and identifies the list of WID and EIDs associated with this particular DID
+    wid_list = id_list[did]["wid"]
+    eid_list = id_list[did]["eid"]
+
+    #iterate through the WIDs
+    for wid in range(len(wid_list)):
+            # then iterating through the EIDs for a given WID
+            for eid in range(len(eid_list)):
+                # calls the get_feature_list function, gets a count and list of types as return. 
+                # If call fails, 0 as count and a blank list gets returned
+                fcount, ftypes = c.get_feature_list(did, id_list[did]["wid"][wid], id_list[did]["eid"][eid])
+                # adds the count to the running tally
+                feature_count = feature_count + fcount
+                # appends the new list of types to the existing list
+                feature_types.extend(ftypes)
+    
+    # tallying up all the feature types in this DID
+    type_tally = pd.Index(feature_types)
+    print(type_tally.value_counts())
+
+    return feature_count, feature_types
+
 ##Ask for user input:
 ##will have to edit this out later to only contain user input "did" and "keyword" and computer does rating
 ##userBase will be set to public and searchRange will always be a set value as well
@@ -111,3 +139,4 @@ c = element_breakdown(did, idList)
 
 # mass properties test
 testmass = get_massproperties
+

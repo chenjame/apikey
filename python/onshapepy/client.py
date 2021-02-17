@@ -147,7 +147,8 @@ class Client():
         }
 
         return self._api.request('post', '/api/assemblies/d/' + did + '/w/' + wid, body=payload)
-
+    
+    """
     def get_features(self, did, wid, eid):
         '''
         Gets the feature list for specified document / workspace / part studio.
@@ -162,6 +163,7 @@ class Client():
         '''
 
         return self._api.request('get', '/api/partstudios/d/' + did + '/w/' + wid + '/e/' + eid + '/features')
+    """
 
     def get_partstudio_tessellatededges(self, did, wid, eid):
         '''
@@ -312,6 +314,7 @@ class Client():
     
     def element_list(self, did, w_list):
         '''
+        Calls the "Element List" API call
         Gets a list of elements given a DID and list of WIDs
         
         Args: 
@@ -351,3 +354,43 @@ class Client():
                     element_type.append(etype)
         
         return eid_list, element_type
+
+    def get_feature_list(self, did, wid, eid):
+        '''
+        Runs the Get Feature List API call. Requires DID, WID, and EID to be given
+        
+        Args: 
+            - did, wid, eid, all as strings 
+
+        Returns:
+            - feature_count (int): a count of how many features there are in this element
+            - feature_list (list): list of features, can include duplicates
+        ''' 
+
+        # list to store all the feature types from the response
+        feature_types = []
+
+        # makes Get Feature List API call using specified DID, WID, and EID
+        res = self._api.request('get', '/api/partstudios/d/' + did + "/w/" + wid + "/e/" + eid + "/features")#?withThumbnails=false")
+        # convert res into a json object before indexing into it on the next line
+        #res = res.json()
+        
+        
+        if res == 400:
+            # if API call fails, then the WID and EID combo is no good. Return 0 as the count and the blank feature_types list
+            feature_count = 0
+            return feature_count, feature_types
+        else:
+            res = res.json()
+        
+            # count how many features there are, basically count the number of sub dictionaries there are in 
+            # the "features" list in the API response
+            feature_count = len(res["features"])
+
+            # add each new feature type found to the list of feature types
+            for i in range(feature_count):
+                feature_types.append(res["features"][i]["message"]["featureType"])
+
+            
+            return feature_count, feature_types
+            

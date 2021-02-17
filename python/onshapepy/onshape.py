@@ -197,7 +197,7 @@ class Onshape():
         if self._logging:
             #utils.log(body)
             #utils.log(req_headers)
-            #utils.log('request url: ' + url)
+            utils.log('request url: ' + url) # turned this back on to see the URLs being called - James
             ## commented out above to create silence in terminal
             pass
             
@@ -223,6 +223,8 @@ class Onshape():
         elif not 200 <= res.status_code <= 206:
             if self._logging:
                 utils.log('request failed, details: ' + res.text, level=1)
+                # James experimenting with how to deal with API call failure with a return value
+                return 400
         else:
             if self._logging:
                 #utils.log('request succeeded, details: ' + res.text)
