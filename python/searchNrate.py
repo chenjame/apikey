@@ -34,6 +34,15 @@ Proposed master dictionary structure, to be refined
 }
 '''
 
+'''
+DEFINITIONS:
+
+did = document ID / your entire file containing your workspaces, elements (parts, API, assemblies, drawings, imports, etc.)
+wid = workspace ID / your workspace (main, branches, etc) that show up in your branch history list (open circle)
+eid = element ID / your tabs in your did and wid (parts, API, assemblies, drawings, imports, etc.)
+version = different saves of the workspace at a specified instance with its corresponding elements
+
+'''
 
 def search_onshape_query(userInput, userBase, searchRange): 
 
@@ -85,6 +94,14 @@ def element_breakdown(did, did_list):
 def get_mass_properties(did, id_list):
     # binary true/false for if any part does not have a mass then score lower
 
+    getmassprop = c.get_massproperties(did, str(id_list[did]["wid"][0]), str(id_list[did]["eid"][0]))
+
+    if getmassprop["bodies"]["-all-"]["massMissingCount"] != 0:
+        hasMass = False
+    else:
+        hasMass = True
+
+    '''
     for i in range(len(id_list[did]["wid"])):
         for j in range(len(id_list[did]["eid"])):
             #set wid and eid to 0 for now until can figure out which is part studio and which is assembly, etc.
@@ -94,7 +111,7 @@ def get_mass_properties(did, id_list):
                 hasMass = False
             else:
                 hasMass = True
-
+    '''
     return hasMass
 
 def feature_tree_count(did, id_list):
@@ -143,8 +160,8 @@ did = list(idList.keys())[0]
 print(did)
 #print("Number of elements in this document: " + str(element_qty_rating(did, idList)))
 #print("Number of workspaces in this document: " + str(workspaces_qty_rating(did, idList)))
-#print("Element Breakdown: ")
-#print(element_breakdown(did, idList))
+print("Element Breakdown: ")
+print(element_breakdown(did, idList))
 #c = element_breakdown(did, idList)
 #print(c["onshape/partstudio"])
 
