@@ -138,5 +138,5 @@ c = element_breakdown(did, idList)
 #print(c["onshape/partstudio"])
 
 # mass properties test
-testmass = get_massproperties
+#testmass = get_massproperties
 
