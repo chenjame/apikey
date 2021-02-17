@@ -82,9 +82,18 @@ def element_breakdown(did, did_list):
     counts = elements.value_counts()
     return counts
 
-def get_mass_properties(did, did_list):
+def get_mass_properties(did, id_list):
+    # binary true/false for if any part does not have a mass then score lower
+    # need to know which element ids are partstudios and which are assemblies
 
-    getmassprop = c.get_massproperties()
+    for i in range(len(id_list[did]["wid"])):
+        for j in range(len(id_list[did]["eid"])):
+            getmassprop = c.get_massproperties(did, str(id_list[did]["wid"][i]), str(id_list[did]["eid"][j]))
+
+            if getmassprop["bodies"]["-all-"]["massMissingCount"] != 0:
+                hasMass = False
+            else:
+                hasMass = True
 
     return hasMass
 
@@ -132,13 +141,13 @@ print("\n\n")
 
 did = list(idList.keys())[0]
 print(did)
-#print("Number of elements in this document: " + str(element_qty_rating(did, x)))
-#print("Number of workspaces in this document: " + str(workspaces_qty_rating(did, x)))
+#print("Number of elements in this document: " + str(element_qty_rating(did, idList)))
+#print("Number of workspaces in this document: " + str(workspaces_qty_rating(did, idList)))
 #print("Element Breakdown: ")
-print(element_breakdown(did, idList))
-c = element_breakdown(did, idList)
+#print(element_breakdown(did, idList))
+#c = element_breakdown(did, idList)
 #print(c["onshape/partstudio"])
 
 # mass properties test
 hasMass = get_mass_properties(did, idList)
-
+print(hasMass)

@@ -82,9 +82,20 @@ def element_breakdown(did, did_list):
     counts = elements.value_counts()
     return counts
 
-def get_mass_properties(did, did_list):
+def get_mass_properties(did, id_list):
+    # binary true/false for if any part does not have a mass then score lower
 
-    return noMass
+    for i in range(len(id_list[did]["wid"])):
+        for j in range(len(id_list[did]["eid"])):
+            #set wid and eid to 0 for now until can figure out which is part studio and which is assembly, etc.
+            getmassprop = c.get_massproperties(did, str(id_list[did]["wid"][0]), str(id_list[did]["eid"][0]))
+
+            if getmassprop["bodies"]["-all-"]["massMissingCount"] != 0:
+                hasMass = False
+            else:
+                hasMass = True
+
+    return hasMass
 
 def feature_tree_count(did, id_list):
     # looking at one specific DID, tries all the WID & EID combos within the DID and gets a master count of how many 
@@ -117,10 +128,10 @@ def feature_tree_count(did, id_list):
 ##Ask for user input:
 ##will have to edit this out later to only contain user input "did" and "keyword" and computer does rating
 ##userBase will be set to public and searchRange will always be a set value as well
-#userdid = input("Enter Part or Assembly did to Rate: ")
+#userdid = input("Enter Part or Assembly did to Rate (no did given, will default your did): ")
 #userInput = input("Enter Keyword for this Part: ")
 userInput=input("Enter Keyword Search: ")
-userBase=int(input("Enter Domain Type (0, 1, 2, 3, 4)  4 for public, 0 for my docs: "))
+userBase=int(input("Enter Domain Type (0 self, 1, 2, 3, 4 public)  4 for public, 0 for my docs: "))
 searchRange = int(input("Enter Number of Searches: ")) 
 
 #idList will contain all did, wid, and eid saved to the did_list.json
@@ -130,13 +141,13 @@ print("\n\n")
 
 did = list(idList.keys())[0]
 print(did)
-#print("Number of elements in this document: " + str(element_qty_rating(did, x)))
-#print("Number of workspaces in this document: " + str(workspaces_qty_rating(did, x)))
+#print("Number of elements in this document: " + str(element_qty_rating(did, idList)))
+#print("Number of workspaces in this document: " + str(workspaces_qty_rating(did, idList)))
 #print("Element Breakdown: ")
-print(element_breakdown(did, idList))
-c = element_breakdown(did, idList)
+#print(element_breakdown(did, idList))
+#c = element_breakdown(did, idList)
 #print(c["onshape/partstudio"])
 
 # mass properties test
-#testmass = get_massproperties
-
+hasMass = get_mass_properties(did, idList)
+print(hasMass)
