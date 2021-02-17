@@ -35,13 +35,8 @@ Proposed master dictionary structure, to be refined
 '''
 
 
-def search_onshape_query(): 
-    ## Build FOR loop here for searching
-    userInput=input("Enter Keyword Search: ")
-    userBase=int(input("Enter Domain Type (0, 1, 2, 3, 4)  4 for public, 0 for my docs: "))
-    searchRange = int(input("Enter Number of Searches: ")) 
-    
-    
+def search_onshape_query(userInput, userBase, searchRange): 
+
     items = {}
     
     for search_offset in range(searchRange):
@@ -87,14 +82,32 @@ def element_breakdown(did, did_list):
     counts = elements.value_counts()
     return counts
 
-x = search_onshape_query()
+def get_mass_properties(did, did_list):
+
+    return noMass
+
+##Ask for user input:
+##will have to edit this out later to only contain user input "did" and "keyword" and computer does rating
+##userBase will be set to public and searchRange will always be a set value as well
+#userdid = input("Enter Part or Assembly did to Rate: ")
+#userInput = input("Enter Keyword for this Part: ")
+userInput=input("Enter Keyword Search: ")
+userBase=int(input("Enter Domain Type (0, 1, 2, 3, 4)  4 for public, 0 for my docs: "))
+searchRange = int(input("Enter Number of Searches: ")) 
+
+#idList will contain all did, wid, and eid saved to the did_list.json
+idList = search_onshape_query(userInput, userBase, searchRange)
 
 print("\n\n")
-did = list(x.keys())[0]
 
+did = list(idList.keys())[0]
+print(did)
 #print("Number of elements in this document: " + str(element_qty_rating(did, x)))
 #print("Number of workspaces in this document: " + str(workspaces_qty_rating(did, x)))
 #print("Element Breakdown: ")
-print(element_breakdown(did, x))
-c = element_breakdown(did, x)
-print(c["onshape/partstudio"])
+print(element_breakdown(did, idList))
+c = element_breakdown(did, idList)
+#print(c["onshape/partstudio"])
+
+# mass properties test
+testmass = get_massproperties

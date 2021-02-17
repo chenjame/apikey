@@ -248,7 +248,7 @@ class Client():
 
     def get_massproperties(self, did, wid, eid):
         '''
-        Gets mass properties of all parts and states if there are parts without any masses
+        If part/element does not have a mass associated, massMissingCount +1, match with how many elements there are
 
         Args:
             - did (str): Document ID
@@ -259,11 +259,14 @@ class Client():
             - requests.Response: Onshape response data
         '''
         res = self._api.request('get', '/api/partstudios/d/' + did + '/w/' + wid + '/e/' + eid + '/massproperties')
+        
+        '''
         res = res.json() #convert res to json
         massMissingCount = 0
         for i in range(len(res)):
             massMissingCount = massMissingCount + res[i][]["massMissingCount"]
-        return massMissingCount
+        '''
+        return res
 
     def get_bom(self, did, wid, eid):
         '''

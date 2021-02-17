@@ -97,7 +97,9 @@ class Onshape():
         nonce = ''.join(random.choice(chars) for i in range(25))
 
         if self._logging:
-            utils.log('nonce created: %s' % nonce)
+            #utils.log('nonce created: %s' % nonce)
+            #commenting out for terminal silence
+            pass
 
         return nonce
 
@@ -123,12 +125,16 @@ class Onshape():
         auth = 'On ' + self._access_key.decode('utf-8') + ':HmacSHA256:' + signature.decode('utf-8')
 
         if self._logging:
+            '''
             utils.log({
                 'query': query,
                 'hmac_str': hmac_str,
                 'signature': signature,
                 'auth': auth
             })
+            '''
+            #commenting out for silence in terminal
+            pass
 
         return auth
 
@@ -182,7 +188,6 @@ class Onshape():
         Returns:
             - requests.Response: Object containing the response from Onshape
         '''
-        data={} #data dictionary to store the request
 
         req_headers = self._make_headers(method, path, query, headers)
         if base_url is None:
