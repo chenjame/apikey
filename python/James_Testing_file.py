@@ -39,7 +39,7 @@ print("List of features:", feature_types)
 '''
 
 
-did = "bac5ea84d6aad3153db5452c"
+did = "47b0488b3684bd60799b73a2"
 #print(len(infile[did]["wid"]))
 
 def feature_tree_count(did, id_list):
@@ -60,6 +60,13 @@ def feature_tree_count(did, id_list):
 feature_count, feature_types = feature_tree_count(did, infile)
 print("Feature count:", feature_count)
 print("Feature types:", feature_types)
+
+#put document ID values in json file called did_list.json
+#with open("std_feature_list.json", "w") as json_file:
+ # json.dump(feature_types, json_file)
+
+
+
 type_tally = pd.Index(feature_types)
 print(type_tally.value_counts())
 
