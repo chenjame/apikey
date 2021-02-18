@@ -1,3 +1,139 @@
+[ {
+  "state" : "IN_PROGRESS",
+  "name" : "Triangle Part",
+  "description" : null,
+  "revision" : null,
+  "material" : {
+    "libraryName" : "Onshape Material Library",
+    "properties" : [ {
+      "units" : "kg/m^3",
+      "type" : "REAL",
+      "name" : "DENS",
+      "value" : "2700",
+      "displayName" : "Density",
+      "description" : "Density",
+      "category" : "Physical"
+    } ],
+    "id" : "Aluminum - 1060",
+    "displayName" : "Aluminum - 1060",
+    "libraryReference" : {
+      "versionId" : "e0c061103dc54e43d0f4f92c",
+      "elementId" : "6bbab304a1f64e7d640a2d7d",
+      "documentId" : "2718281828459eacfeeda11f",
+      "elementMicroversionId" : "3ddb8491f577da0c2d4166ea"
+    }
+  },
+  "appearance" : {
+    "isGenerated" : true,
+    "color" : {
+      "red" : 157,
+      "green" : 207,
+      "blue" : 237
+    },
+    "opacity" : 255
+  },
+  "isFlattenedBody" : false,
+  "bodyType" : "solid",
+  "isMesh" : false,
+  "microversionId" : "a82b3be8f01be46f98811f7b",
+  "partNumber" : null,
+  "elementId" : "f20c6cb4fa20fa25f30734ff",
+  "partId" : "JHD",
+  "partQuery" : "query=qCompressed(1.0,\"%B5$QueryM5S12$disambiguationDataA1M2S12$disambiguationTypeS13$ORIGINAL_DEPENDENCYS9$originalsA1C0M5Sa$entityTypeBa$EntityTypeS4$EDGESb$historyTypeS8$CREATIONSb$operationIdB2$IdA1S11.6$Fmd90kav5mwvSCg_0wireOpS9$queryTypeSd$SKETCH_ENTITYSe$sketchEntityIdSc$OBasIasPB0wAR4C6S4$BODYR6R7R8CbA1S11.9$FLURTxftguVO0Sp_0opExtrudeRbSa$SWEPT_BODY\",id);",
+  "configurationId" : "",
+  "thumbnailConfigurationId" : "",
+  "isHidden" : false,
+  "ordinal" : 0,
+  "propertySourceTypes" : {
+    "57f3fb8efa3416c06701d615" : 3,
+    "57f3fb8efa3416c06701d60d" : 3
+  }
+}, {
+  "state" : "IN_PROGRESS",
+  "name" : "Fat Cylinder",
+  "description" : null,
+  "revision" : null,
+  "material" : {
+    "libraryName" : "Onshape Material Library",
+    "properties" : [ {
+      "units" : "kg/m^3",
+      "type" : "REAL",
+      "name" : "DENS",
+      "value" : "7850",
+      "displayName" : "Density",
+      "description" : "Density",
+      "category" : "Physical"
+    } ],
+    "id" : "300 Series Stainless Steel",
+    "displayName" : "300 Series Stainless Steel",
+    "libraryReference" : {
+      "versionId" : "e0c061103dc54e43d0f4f92c",
+      "elementId" : "6bbab304a1f64e7d640a2d7d",
+      "documentId" : "2718281828459eacfeeda11f",
+      "elementMicroversionId" : "3ddb8491f577da0c2d4166ea"
+    }
+  },
+  "appearance" : {
+    "isGenerated" : true,
+    "color" : {
+      "red" : 165,
+      "green" : 165,
+      "blue" : 165
+    },
+    "opacity" : 255
+  },
+  "isFlattenedBody" : false,
+  "bodyType" : "solid",
+  "isMesh" : false,
+  "microversionId" : "a82b3be8f01be46f98811f7b",
+  "partNumber" : null,
+  "elementId" : "f20c6cb4fa20fa25f30734ff",
+  "partId" : "JID",
+  "partQuery" : "query=qCompressed(1.0,\"%B5$QueryM5S12$disambiguationDataA1M2S12$disambiguationTypeS13$ORIGINAL_DEPENDENCYS9$originalsA3C0M5Sa$entityTypeBa$EntityTypeS4$EDGESb$historyTypeS8$CREATIONSb$operationIdB2$IdA1S11.6$Fmd90kav5mwvSCg_0wireOpS9$queryTypeSd$SKETCH_ENTITYSe$sketchEntityIdSc.4$Z7e3L1oJWaakleftC0M5R4R5R6R7R8RaRbRcRdSc$eN6rjEJc2R32C0M5R4R5R6R7R8RaRbRcRdSc$5RsTMbVUgpw2R4C6S4$BODYR6R7R8CbA1S11.9$FddWMDYAfyjwziS_1opExtrudeRbSa$SWEPT_BODY\",id);",
+  "configurationId" : "",
+  "thumbnailConfigurationId" : "",
+  "isHidden" : false,
+  "ordinal" : 1,
+  "propertySourceTypes" : {
+    "57f3fb8efa3416c06701d615" : 3,
+    "57f3fb8efa3416c06701d60d" : 3
+  }
+}, {
+  "state" : "IN_PROGRESS",
+  "name" : "Part 3",
+  "description" : null,
+  "revision" : null,
+  "appearance" : {
+    "isGenerated" : true,
+    "color" : {
+      "red" : 59,
+      "green" : 97,
+      "blue" : 180
+    },
+    "opacity" : 255
+  },
+  "isFlattenedBody" : false,
+  "bodyType" : "solid",
+  "isMesh" : false,
+  "microversionId" : "a82b3be8f01be46f98811f7b",
+  "partNumber" : null,
+  "elementId" : "f20c6cb4fa20fa25f30734ff",
+  "partId" : "JLD",
+  "partQuery" : "query=qCompressed(1.0,\"%B5$QueryM5S12$disambiguationDataA1M2S12$disambiguationTypeS13$ORIGINAL_DEPENDENCYS9$originalsA1C0M5Sa$entityTypeBa$EntityTypeS4$EDGESb$historyTypeS8$CREATIONSb$operationIdB2$IdA1S11.6$FyuywWFETzZdjDq_2wireOpS9$queryTypeSd$SKETCH_ENTITYSe$sketchEntityIdSc$4UHHyQp5VYx4R4C6S4$BODYR6R7R8CbA1S11.9$FSb9xKLwQVJcuo1_2opExtrudeRbSa$SWEPT_BODY\",id);",
+  "configurationId" : "",
+  "thumbnailConfigurationId" : "",
+  "isHidden" : false,
+  "ordinal" : 2,
+  "propertySourceTypes" : {
+    "57f3fb8efa3416c06701d60d" : 0
+  }
+} ]
+
+
+
+
+######################
+
 {
   "features" : [ {
     "type" : 151,

@@ -66,8 +66,9 @@ print(type_tally.value_counts())
 
 
 
-"""
 
+
+"""
 did = "3f52b4a599ab60d07b138028"
 wid = "515cdd29bd85642ac09a651f"
 eid = "afcbf0ae1cc776b1b1f6b1b9"
@@ -77,3 +78,6 @@ count, testlist = c.get_feature_list(did, wid, eid)
 print(count)
 print(testlist)
 """
+
+
+#print(len(infile))
