@@ -93,26 +93,17 @@ def element_breakdown(did, did_list):
 
 def get_mass_properties(did, id_list):
     # binary true/false for if any part does not have a mass then score lower
-
-    getmassprop = c.get_massproperties(did, str(id_list[did]["wid"][0]), str(id_list[did]["eid"][0]))
-
-    if getmassprop["bodies"]["-all-"]["massMissingCount"] != 0:
-        hasMass = False
-    else:
-        hasMass = True
-
-    '''
-    for i in range(len(id_list[did]["wid"])):
-        for j in range(len(id_list[did]["eid"])):
-            #set wid and eid to 0 for now until can figure out which is part studio and which is assembly, etc.
-            getmassprop = c.get_massproperties(did, str(id_list[did]["wid"][0]), str(id_list[did]["eid"][0]))
-
-            if getmassprop["bodies"]["-all-"]["massMissingCount"] != 0:
-                hasMass = False
-            else:
-                hasMass = True
-    '''
-    return hasMass
+    missingMassParts = 0
+    totalNumParts = 0
+    # create list of eids with just PARTSTUDIOS 
+    partsList= [id_list[did]["eid"][j] for j, val in enumerate(id_list[did]["element types"]) if val == "onshape/partstudio"]
+    widList = id_list[did]["wid"]      
+    for wid in widList:
+        for eid in partsList:
+            missingMassParts += c.get_massproperties(did, wid, eid)
+            totalNumParts += c.get_parts_in_partstudio(did, wid, eid)
+   
+    return missingMassParts, totalNumParts # returns number of parts with missing mass in a did 
 
 def feature_tree_count(did, id_list):
     # looking at one specific DID, tries all the WID & EID combos within the DID and gets a master count of how many 
@@ -142,11 +133,6 @@ def feature_tree_count(did, id_list):
 
     return feature_count, feature_types
 
-##Ask for user input:
-##will have to edit this out later to only contain user input "did" and "keyword" and computer does rating
-##userBase will be set to public and searchRange will always be a set value as well
-#userdid = input("Enter Part or Assembly did to Rate (no did given, will default your did): ")
-#userInput = input("Enter Keyword for this Part: ")
 userInput=input("Enter Keyword Search: ")
 userBase=int(input("Enter Domain Type (0 self, 1, 2, 3, 4 public)  4 for public, 0 for my docs: "))
 searchRange = int(input("Enter Number of Searches: ")) 
@@ -166,5 +152,6 @@ print(element_breakdown(did, idList))
 #print(c["onshape/partstudio"])
 
 # mass properties test
-hasMass = get_mass_properties(did, idList)
-print(hasMass)
+#missingMassCount, numParts = get_mass_properties(did, idList)
+#print(missingMassCount)
+#print(numParts)

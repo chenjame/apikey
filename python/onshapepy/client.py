@@ -261,8 +261,18 @@ class Client():
             - requests.Response: Onshape response data
         '''
         res = self._api.request('get', '/api/partstudios/d/' + did + '/w/' + wid + '/e/' + eid + '/massproperties')
-        res = res.json() #conv res to json obj
-        return res
+
+        if res == 400:
+            # if API call fails, then the WID and EID combo is no good. Return 0 as the count and the blank feature_types list
+            count = 0
+            return count
+        else:
+            res = res.json()
+            try:
+                count = res["bodies"]["-all-"]["massMissingCount"]
+            except KeyError:
+                count = 0
+            return count #gives number of missing
 
     def get_bom(self, did, wid, eid):
         '''
@@ -388,3 +398,20 @@ class Client():
             
             return feature_count, feature_types
             
+
+    def get_parts_in_partstudio(self, did, wid, eid):
+        # call "get parts in partstudio" API call given DID, WID, and EID
+
+        res = self._api.request('get', '/api/parts/d/' + did + "/w/" + wid + "/e/" + eid)
+
+        if res == 400:
+            # if API call fails, then the WID and EID combo is no good. Return 0 as the count and the blank feature_types list
+            count = 0
+            return count
+        else:
+            res = res.json()
+            try:
+                count = len(res)
+            except TypeError:
+                count = 0
+            return count #returns int of how many parts are in a partstudio tab eid
