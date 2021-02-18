@@ -415,3 +415,19 @@ class Client():
             except TypeError:
                 count = 0
             return count #returns int of how many parts are in a partstudio tab eid
+
+    def get_versions(self, did):
+
+        res = self._api.request('get', '/api/documents/d/' + did + "/versions")
+
+        if res == 400:
+            # if API call fails, then the WID and EID combo is no good. Return 0 as the count and the blank feature_types list
+            count = 0
+            return count
+        else:
+            res = res.json()
+            try:
+                count = len(res)
+            except TypeError:
+                count = 0
+            return count #returns int of how many versions there are in the did

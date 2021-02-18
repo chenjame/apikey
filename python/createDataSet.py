@@ -1,5 +1,6 @@
 from __future__ import print_function
 import json
+import csv
 import pandas as pd
 '''
 app
@@ -92,18 +93,22 @@ def element_breakdown(did, did_list):
     return counts
 
 def get_mass_properties(did, id_list):
-    # binary true/false for if any part does not have a mass then score lower
+    # initiate missing mass part count and total num parts in eid
     missingMassParts = 0
     totalNumParts = 0
+    
     # create list of eids with just PARTSTUDIOS 
     partsList= [id_list[did]["eid"][j] for j, val in enumerate(id_list[did]["element types"]) if val == "onshape/partstudio"]
-    widList = id_list[did]["wid"]      
+    
+    # set widList as the list of wid for simplicity
+    widList = id_list[did]["wid"]
+    # count num of parts without mass/material and num of elements in eids
     for wid in widList:
         for eid in partsList:
             missingMassParts += c.get_massproperties(did, wid, eid)
             totalNumParts += c.get_parts_in_partstudio(did, wid, eid)
    
-    return missingMassParts, totalNumParts # returns number of parts with missing mass in a did 
+    return missingMassParts, totalNumParts # returns number of parts with missing mass in a did and num of parts in eids 
 
 def feature_tree_count(did, id_list):
     # looking at one specific DID, tries all the WID & EID combos within the DID and gets a master count of how many 
@@ -133,6 +138,22 @@ def feature_tree_count(did, id_list):
 
     return feature_count, feature_types
 
+def count_versions (did):
+    #call function to find out how many versions there are of the did
+    numVersions = c.get_versions(did)
+
+    return numVersions
+
+def did_from_url (url):
+    startIndex = url.find("/d/") + 3 #find where the start of /d/ for did + 3 indecies bc of "/" + "d" + "/"
+    endIndex = url.find("/w/")
+    did = "" #initialize did as a str
+
+    #build did from url chr by chr
+    for i in range (startIndex, endIndex):
+        did += url[i]
+    return did
+
 userInput=input("Enter Keyword Search: ")
 userBase=int(input("Enter Domain Type (0 self, 1, 2, 3, 4 public)  4 for public, 0 for my docs: "))
 searchRange = int(input("Enter Number of Searches: ")) 
@@ -155,3 +176,6 @@ print(element_breakdown(did, idList))
 #missingMassCount, numParts = get_mass_properties(did, idList)
 #print(missingMassCount)
 #print(numParts)
+
+# version count test
+# print(count_versions(did))

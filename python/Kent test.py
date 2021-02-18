@@ -1,6 +1,10 @@
 from __future__ import print_function
 import json
+import csv
+import statistics as stats
 import pandas as pd
+import numpy as np
+
 '''
 app
 ===
@@ -131,6 +135,29 @@ def feature_tree_count(did, id_list):
 
     return feature_count, feature_types
 
+def count_versions (did):
+    #call function to find out how many versions there are of the did
+    numVersions = c.get_versions(did)
+
+    return numVersions
+
+def did_from_url (url):
+    startIndex = url.find("/d/") + 3 #find where the start of /d/ for did + 3 indecies bc of "/" + "d" + "/"
+    endIndex = url.find("/w/")
+    did = "" #initialize did as a str
+
+    #build did from url chr by chr
+    for i in range (startIndex, endIndex):
+        did += url[i]
+    return did
+
+def z_scores (x, CSV): #where x is your list of properties of the user input did
+    #take the list of all properties from CSV file and calculate the z score sum
+    #equation for z_score = (x-mu)/stdev
+
+
+    return z
+
 userInput=input("Enter Keyword Search: ")
 userBase=int(input("Enter Domain Type (0 self, 1, 2, 3, 4 public)  4 for public, 0 for my docs: "))
 searchRange = int(input("Enter Number of Searches: ")) 
@@ -141,14 +168,21 @@ idList = search_onshape_query(userInput, userBase, searchRange)
 print("\n\n")
 
 did = list(idList.keys())[0]
-print(did)
+#print(did)
 #print("Number of elements in this document: " + str(element_qty_rating(did, idList)))
 #print("Number of workspaces in this document: " + str(workspaces_qty_rating(did, idList)))
-print("Element Breakdown: ")
-print(element_breakdown(did, idList))
+#print("Element Breakdown: ")
+#print(element_breakdown(did, idList))
 #c = element_breakdown(did, idList)
 #print(c["onshape/partstudio"])
 
 # mass properties test
-hasMass = get_mass_properties(did, idList)
-print(hasMass)
+#hasMass = get_mass_properties(did, idList)
+#print(hasMass)
+
+# version count test
+#print(count_versions(did))
+
+# did from url test
+#url = "https://cad.onshape.com/d/bac5ea84d6aad3153db5452c/w/24321161ec81bce2b1df6cda/e/f20c6cb4fa20fa25f30734ff/"
+#print(did_from_url(url))
