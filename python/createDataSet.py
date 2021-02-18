@@ -179,3 +179,7 @@ print(element_breakdown(did, idList))
 
 # version count test
 # print(count_versions(did))
+
+# did from url test
+#url = "https://cad.onshape.com/d/bac5ea84d6aad3153db5452c/w/24321161ec81bce2b1df6cda/e/f20c6cb4fa20fa25f30734ff/"
+#print(did_from_url(url))

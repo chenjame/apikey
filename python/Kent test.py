@@ -155,8 +155,18 @@ def z_scores (x, CSV): #where x is your list of properties of the user input did
     #take the list of all properties from CSV file and calculate the z score sum
     #equation for z_score = (x-mu)/stdev
 
+    with open('BIG_LIST.csv', newline='') as csvfile:
+        BIG_DATA = csv.DictReader(csvfile)
+        for row in BIG_DATA:
+            #mean_massCount += BIG_DATA.mass
+            #mean_versionCount += BIG_DATA.version
+            #mean_elementType += BIG_DATA.elementtype
+            #mean_bodyCount += BIG_DATA.bodycount
+            #mean_feature1 += BIG_DATA.feature1
+            #std_...
 
-    return z
+            pass
+    return
 
 userInput=input("Enter Keyword Search: ")
 userBase=int(input("Enter Domain Type (0 self, 1, 2, 3, 4 public)  4 for public, 0 for my docs: "))
