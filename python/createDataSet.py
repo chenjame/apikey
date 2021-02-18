@@ -133,11 +133,6 @@ def feature_tree_count(did, id_list):
 
     return feature_count, feature_types
 
-##Ask for user input:
-##will have to edit this out later to only contain user input "did" and "keyword" and computer does rating
-##userBase will be set to public and searchRange will always be a set value as well
-#userdid = input("Enter Part or Assembly did to Rate (no did given, will default your did): ")
-#userInput = input("Enter Keyword for this Part: ")
 userInput=input("Enter Keyword Search: ")
 userBase=int(input("Enter Domain Type (0 self, 1, 2, 3, 4 public)  4 for public, 0 for my docs: "))
 searchRange = int(input("Enter Number of Searches: ")) 
@@ -157,6 +152,6 @@ print(element_breakdown(did, idList))
 #print(c["onshape/partstudio"])
 
 # mass properties test
-missingMassCount, numParts = get_mass_properties(did, idList)
-print(missingMassCount)
-print(numParts)
+#missingMassCount, numParts = get_mass_properties(did, idList)
+#print(missingMassCount)
+#print(numParts)
