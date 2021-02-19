@@ -259,7 +259,7 @@ def updateDataset(filename, new_dataset):
 
 # This is for manual URL input
 url_name = input("Enter url: ")
-idList = userWIDEID(did_from_url())
+idList = userWIDEID(did_from_url(url_name))
 
 # This is for building did list searching with keywords
 """
