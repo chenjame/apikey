@@ -19,6 +19,7 @@ def did_from_url (url):
 def main_function():
     url = str(E1.get())
     did = did_from_url(url)
+    
 
     return
 
