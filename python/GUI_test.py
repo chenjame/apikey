@@ -1,9 +1,6 @@
 
 import tkinter as tk
 
-gui = tk.Tk()
-global url
-
 def did_from_url (url):
     print(url)
     startIndex = url.find("/documents/") + 11 #3 #find where the start of /d/ for did + 3 indecies bc of "/" + "d" + "/"
@@ -25,13 +22,16 @@ def main_function():
 
     return
 
-L1 = tk.Label(gui, text="Insert Part URL: ").grid(row = 0, column=0)
-#L1.pack(side = "left")
-E1 = tk.Entry(gui, bd =5).grid(row=0,column=2)
-#E1.pack(side = "left")
-B = tk.Button(gui, text =" Enter ", command = main_function).grid(row=0,column=5)
-#B.pack(side = "right")
-scoreLabel = tk.Label(gui, text ="SCORE: ").grid(row=1,column =3)
-#scoreLabel.pack(side ="bottom")
+gui = tk.Tk()
+gui.geometry('300x100')
+L1 = tk.Label(gui, text="Insert Part URL: ")
+L1.pack(side = "top")
+E1 = tk.Entry(gui, bd =5, width = 35)
+E1.pack(side = "top")
+B1 = tk.Button(gui, text =" Enter ", command = main_function)
+B1.pack(side = "top")
+scoreLabel = tk.Label(gui, text ="SCORE:      ")
+scoreLabel.pack(side = "bottom")
+
 
 gui.mainloop()
