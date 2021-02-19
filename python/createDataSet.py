@@ -260,14 +260,23 @@ idList = userWIDEID(did_from_url(url_name))
 """
 
 # This is for building did list searching with keywords
-'''
-userInput=input("Enter Keyword Search: ")
-userBase=int(input("Enter Domain Type (0 self, 1, 2, 3, 4 public)  4 for public, 0 for my docs: "))
-searchRange = int(input("Enter Number of Searches: ")) 
+
+#userInput=input("Enter Keyword Search: ")
+#userBase=int(input("Enter Domain Type (0 self, 1, 2, 3, 4 public)  4 for public, 0 for my docs: "))
+#searchRange = int(input("Enter Number of Searches: ")) 
+queryList = ["toy","anime"]
+userBase =4
+searchRange =3
+for query in queryList:
+    idList = search_onshape_query(query, userBase, searchRange)
+
+    filename = "SampleDataset.csv"
+    new_dataset = createTestSet(idList)
+    updateDataset(filename, new_dataset)
 
 ##idList will contain all did, wid, and eid saved to the did_list.json
-idList = search_onshape_query(userInput, userBase, searchRange)
-'''
+#idList = search_onshape_query(userInput, userBase, searchRange)
+
 ######################################################################################################
 
 
@@ -281,9 +290,9 @@ firstdataset.to_csv(filename, header= True)
 """
 
 #########################################Update Dataset##############################################
-
+'''
 filename = "SampleDataset.csv"
 new_dataset = createTestSet(idList)
 updateDataset(filename, new_dataset)
-
+'''
 ######################################################################################################
