@@ -7,6 +7,7 @@ import math
 def assignScore(filename, case):
     #filename = "SampleDataset.csv"
     dataset = pd.read_csv(filename, index_col=0, header=0)
+    dataset - dataset.fillna(0)
     attributes = dataset.columns.to_list()
     #print(len(attributes))
 
