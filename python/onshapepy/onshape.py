@@ -222,7 +222,7 @@ class Onshape():
             return self.request(method, location.path, query=new_query, headers=headers, base_url=new_base_url)
         elif not 200 <= res.status_code <= 206:
             if self._logging:
-                utils.log('request failed, details: ' + res.text, level=1)
+                #utils.log('request failed, details: ' + res.text, level=1)
                 # James experimenting with how to deal with API call failure with a return value
                 return 400
         else:

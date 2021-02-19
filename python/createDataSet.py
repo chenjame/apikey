@@ -3,6 +3,8 @@ import json
 import csv
 import pandas as pd
 '''
+enVision 2021 PTC Hackathon
+
 app
 ===
 
@@ -20,15 +22,8 @@ stacks = {
 # create instance of the onshape client; change key to test on another stack
 c = Client(stack=stacks['cad'], logging=True)
 
-# make a new document and grab the document ID and workspace ID
-#new_doc = c.new_document(public=True).json()
-#did = new_doc['id']
-#wid = new_doc['defaultWorkspace']['id']
-
-
-
 '''
-Proposed master dictionary structure, to be refined
+Proposed master dictionary structure
 {
     "did1" : {"wid": [list of wids], "EID":[list of EIDS]}
 
@@ -69,8 +64,8 @@ def search_onshape_query(userInput, userBase, searchRange):
         items[search_did] = did_components
 
     #put document ID values in json file called did_list.json
-    with open("did_list.json", "w") as json_file:
-        json.dump(items, json_file)
+    #with open("did_list.json", "w") as json_file:
+    #    json.dump(items, json_file)
 
     return items
 
@@ -112,7 +107,6 @@ def get_mass_properties(did, id_list):
 
     return missingMassParts, totalNumParts # returns number of parts with missing mass in a did and num of parts in eids 
 
-
 def feature_tree_count(did, id_list):
     # looking at one specific DID, tries all the WID & EID combos within the DID and gets a master count of how many 
     # features and types of features there are 
@@ -145,7 +139,6 @@ def feature_tree_count(did, id_list):
 
     return feature_count, feature_types
 
-
 def asy_feature_tree_count(did, id_list):
     # looking at one specific DID, tries all the WID & EID combos within the DID and gets a master count of how many 
     # features and types of features there are 
@@ -175,7 +168,6 @@ def asy_feature_tree_count(did, id_list):
 
     return asy_feature_count, asy_feature_types
 
-
 def count_versions (did):
     #call function to find out how many versions there are of the did
     numVersions = c.get_versions(did)
@@ -200,15 +192,15 @@ def userWIDEID(did):
     items = {}
     # create a dictionary that will store the lists of wids and eids
     did_components = {}
-    search_ws = c.get_workspaces(search_did)
+    search_ws = c.get_workspaces(did)
     did_components["wid"] = search_ws
 
-    search_eid, element_type = c.element_list(search_did, search_ws)
+    search_eid, element_type = c.element_list(did, search_ws)
     did_components["eid"] = search_eid
     ##adding the element types
     did_components["element types"] = element_type
 
-    items[search_did] = did_components
+    items[did] = did_components
 
     #put document ID values in json file called did_list.json
     #with open("did_list.json", "w") as json_file:
@@ -239,9 +231,6 @@ def createAttributes(did, did_list):
     case = case.rename(did)
     return case
 
-#attribute_list = ['Number of Features', 'Number of Parts', 'Number of Total Elements', 'Number of Versions', 'Number of Workspaces', 'Parts Missing Mass', 'application/step', 'application/stl', 'onshape-app/com.onshape.api-explorer', 'onshape-app/drawing', 'onshape-app/materials', 'onshape/assembly', 'onshape/billofmaterials', 'onshape/featurestudio', 'onshape/partstudio', \
-#    "newSketch", "extrude", "revolve", "sweep", "cPlane", "loft", "thicken", "enclose", "fillet", "chamfer", "draft", "rib", "shell", "hole", "linearPattern", "circularPattern", "curvePattern", "mirror", "booleanBodies", "splitPart", "transform", "wrap", "deleteBodies", "modifyFillet", "deleteFace", "moveFace", "replaceFace", "offsetSurface", "fill", "extendSurface", "helix", "fitSpline", "projectCurves", "bridgingCurve", "compositeCurve", "mateConnector", "importDerived", "assignVariable", "compositePart", "sheetMetalStart", "sheetMetalFlange", "sheetMetalHem", "sheetMetalTab", "sheetMetalMakeJoint", "sheetMetalCorner", "sheetMetalBendRelief", "sheetMetalJoint", "sheetMetalEnd" \
-#    "MATE_CONNECTOR", "FASTENED", "REVOLUTE", "SLIDER", "PLANAR", "CYLINDRICAL", "PIN_SLOT", "BALL", "PARALLEL", "TANGENT", "MATE_GROUP", "GEAR", "RACK_AND_PINION", "SCREW", "LINEAR_MATE", "LINEAR_PATTERN", "CIRCULAR_PATTERN"]
 attribute_list = ['Number of Features', 'Number of Parts', 'Number of Total Elements', 'Number of Versions', 'Number of Workspaces', 'Parts Missing Mass', 'application/step', 'application/stl', 'onshape-app/com.onshape.api-explorer', 'onshape-app/drawing', 'onshape-app/materials', 'onshape/assembly', 'onshape/billofmaterials', 'onshape/featurestudio', 'onshape/partstudio', 'newSketch', 'extrude', 'revolve', 'sweep', 'cPlane', 'loft', 'thicken', 'enclose', 'fillet', 'chamfer', 'draft', 'rib', 'shell', 'hole', 'linearPattern', 'circularPattern', 'curvePattern', 'mirror', 'booleanBodies', 'splitPart', 'transform', 'wrap', 'deleteBodies', 'modifyFillet', 'deleteFace', 'moveFace', 'replaceFace', 'offsetSurface', 'fill', 'extendSurface', 'helix', 'fitSpline', 'projectCurves', 'bridgingCurve', 'compositeCurve', 'mateConnector', 'importDerived', 'assignVariable', 'compositePart', 'sheetMetalStart', 'sheetMetalFlange', 'sheetMetalHem', 'sheetMetalTab', 'sheetMetalMakeJoint', 'sheetMetalCorner', 'sheetMetalBendRelief', 'sheetMetalJoint', 'sheetMetalEnd', 'sheetMetalEndMATE_CONNECTOR', 'FASTENED', 'REVOLUTE', 'SLIDER', 'PLANAR', 'CYLINDRICAL', 'PIN_SLOT', 'BALL', 'PARALLEL', 'TANGENT', 'MATE_GROUP', 'GEAR', 'RACK_AND_PINION', 'SCREW', 'LINEAR_MATE', 'LINEAR_PATTERN', 'CIRCULAR_PATTERN', 'Number of Assembly Features']
 
 def createTestSet(did_list):
@@ -267,26 +256,26 @@ def updateDataset(filename, new_dataset):
     print("Your dataset has been updated!")
 
 ################################## Uncomment this Area to Call QUERY##################################
+'''
 userInput=input("Enter Keyword Search: ")
 userBase=int(input("Enter Domain Type (0 self, 1, 2, 3, 4 public)  4 for public, 0 for my docs: "))
 searchRange = int(input("Enter Number of Searches: ")) 
 
 ##idList will contain all did, wid, and eid saved to the did_list.json
 idList = search_onshape_query(userInput, userBase, searchRange)
+'''
 ######################################################################################################
 
 
-print("\n\n")
-
 #######################################Create Dataset#################################################
-#did = "bac5ea84d6aad3153db5452c" 
-#idList = {"bac5ea84d6aad3153db5452c": {"wid": ["24321161ec81bce2b1df6cda", "b924da502c3f8bf01ed95c05"], "eid": ["f20c6cb4fa20fa25f30734ff", "07fc595ebdaf9eb383e97276", "dc93dd30f1d4c0251d76ab3e", "880daf10f99c227b26189f6c", "07ee6adf4c5269d34f572d3a", "7a0f8b1e3cf03cf20c957922", "5081b4aa63de5997415b72de", "013bab8b899efd6b32701bb2", "789cd84e63d6f8c534c072ff", "d3591b03919ce594327c6de5", "b82ff955383aba26a6315a1e"], "element types": ["onshape/partstudio", "application/stl", "onshape-app/com.onshape.api-explorer", "onshape/partstudio", "onshape/assembly", "onshape-app/materials", "onshape/featurestudio", "onshape-app/drawing", "onshape/billofmaterials", "application/step", "onshape/partstudio"]}}
 #createAttributes(did, did_list)
-
-
-filename = "SampleDataset.csv"
+##in case someone deletes sampledataset
 #firstdataset = pd.DataFrame(columns = attribute_list)
 #firstdataset.to_csv(filename, header= True)
+
+'''
+filename = "SampleDataset.csv"
 new_dataset = createTestSet(idList)
-#updateDataset(filename, new_dataset)
+updateDataset(filename, new_dataset)
+'''
 ######################################################################################################

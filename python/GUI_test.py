@@ -1,38 +1,32 @@
 
 import tkinter as tk
-
-def did_from_url (url):
-    print(url)
-    startIndex = url.find("/documents/") + 11 #3 #find where the start of /d/ for did + 3 indecies bc of "/" + "d" + "/"
-    try:
-        endIndex = url.find("/w")
-    
-    except:
-        endIndex = url.find("/v")
-    did = "" #initialize did as a str
-
-    #build did from url chr by chr
-    for i in range (startIndex, endIndex):
-        did += url[i]
-    return did
+import createDataSet as d
+import assignScore as a
 
 def main_function():
     url = str(E1.get())
-    did = did_from_url(url)
-    
+    did = d.did_from_url(url)
+    try: 
+        idList = d.userWIDEID(did)
+    except AttributeError: 
+        # please enter a correct url
+    userData = d.createTestSet(idList)
+    userScore = a.assignScore("SampleDataset.csv", userData)
 
     return
 
 gui = tk.Tk()
 gui.geometry('300x100')
-L1 = tk.Label(gui, text="Insert Part URL: ")
+L1 = tk.Label(gui, text="Insert Part URL from Onshape: ")
 L1.pack(side = "top")
 E1 = tk.Entry(gui, bd =5, width = 35)
 E1.pack(side = "top")
 B1 = tk.Button(gui, text =" Enter ", command = main_function)
 B1.pack(side = "top")
-scoreLabel = tk.Label(gui, text ="SCORE:      ")
+scoreLabel = tk.Label(gui, text ="SCORE: ")
 scoreLabel.pack(side = "bottom")
+userScoreLabel = tk.Label(gui, text="---------")
+userScoreLabel.pack(side="bottom")
 
 
 gui.mainloop()
