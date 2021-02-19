@@ -27,6 +27,7 @@ def assignScore(filename, case):
     sum_zscore = sum(zscore_list)
     percentile_zscore = statistics.NormalDist(mu=0, sigma=math.sqrt(len(attributes))).zscore(sum_zscore)
     finalscore = statistics.NormalDist().cdf(percentile_zscore)
+    finalscore = round(finalscore,3)
     print(finalscore*10)
     return finalscore*10
 

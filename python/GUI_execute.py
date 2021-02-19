@@ -10,23 +10,23 @@ def main_function():
     try: 
         idList = d.userWIDEID(did)
     except AttributeError: 
-        userScoreText = "Uh Oh, Please Input Correct URL"
+        userScoreText = "Uh Oh, Please Enter Correct URL"
         userScoreLabel.config(text = userScoreText)
     userData = d.createTestSet(idList)
     userScore = a.assignScore("SampleDataset.csv", userData)
-    userScoreText = userScore
-    userScoreLabel.config(text = userScore)
+    userScoreText = str(userScore) +" / 10"
+    userScoreLabel.config(text = userScoreText)
     return
 
 gui = tk.Tk()
 gui.geometry('300x110')
-L1 = tk.Label(gui, text="Insert Part URL from Onshape: ")
+L1 = tk.Label(gui, text="Insert Part/Assembly URL from Onshape: ")
 L1.pack(side = "top")
 E1 = tk.Entry(gui, bd =5, width = 35)
 E1.pack(side = "top")
 B1 = tk.Button(gui, text =" Enter ", command = main_function)
 B1.pack(side = "top")
-scoreLabel = tk.Label(gui, text ="SCORE: ")
+scoreLabel = tk.Label(gui, text ="SCORE:")
 scoreLabel.pack(fill = "x")
 userScoreText = " -------------- "
 userScoreLabel = tk.Label(gui,text = userScoreText)
