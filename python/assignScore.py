@@ -10,10 +10,6 @@ def assignScore(filename, case):
     attributes = dataset.columns.to_list()
     #print(len(attributes))
 
-
-    #case = dataset.loc['47f6c62a2855826e6dd986bd',:]
-    case = dataset.loc['bac5ea84d6aad3153db5452c',:]
-
     mean = dataset.mean()
     std = dataset.std(axis = 0)
 

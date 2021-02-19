@@ -175,7 +175,7 @@ def count_versions (did):
 def did_from_url(url):
     startIndex = url.find("/documents/") + 11 #3 #find where the start of /d/ for did + 3 indecies bc of "/" + "d" + "/"
     try:
-        endIndex = url.find("/w")
+        endIndex = url.find("/w/")
     
     except:
         endIndex = url.find("/v")
@@ -254,20 +254,20 @@ def updateDataset(filename, new_dataset):
     print("Your dataset has been updated!")
 
 ################################## Uncomment this Area to Call QUERY##################################
-
+'''
 # This is for manual URL input
 url_name = input("Enter url: ")
 idList = userWIDEID(did_from_url(url_name))
-
+'''
 # This is for building did list searching with keywords
-"""
+'''
 userInput=input("Enter Keyword Search: ")
 userBase=int(input("Enter Domain Type (0 self, 1, 2, 3, 4 public)  4 for public, 0 for my docs: "))
 searchRange = int(input("Enter Number of Searches: ")) 
 
 ##idList will contain all did, wid, and eid saved to the did_list.json
 idList = search_onshape_query(userInput, userBase, searchRange)
-"""
+'''
 ######################################################################################################
 
 
@@ -277,9 +277,9 @@ idList = search_onshape_query(userInput, userBase, searchRange)
 #firstdataset = pd.DataFrame(columns = attribute_list)
 #firstdataset.to_csv(filename, header= True)
 
-
+'''
 filename = "SampleDataset.csv"
 new_dataset = createTestSet(idList)
 updateDataset(filename, new_dataset)
-
+'''
 ######################################################################################################
