@@ -109,8 +109,9 @@ def get_mass_properties(did, id_list):
         for eid in partsList:
             missingMassParts += c.get_massproperties(did, wid, eid)
             totalNumParts += c.get_parts_in_partstudio(did, wid, eid)
-   
+
     return missingMassParts, totalNumParts # returns number of parts with missing mass in a did and num of parts in eids 
+
 
 def feature_tree_count(did, id_list):
     # looking at one specific DID, tries all the WID & EID combos within the DID and gets a master count of how many 
@@ -118,9 +119,13 @@ def feature_tree_count(did, id_list):
     feature_count = 0
     feature_types = []
 
+    
+
     # looks inside the did_list.json file and identifies the list of WID and EIDs associated with this particular DID
     wid_list = id_list[did]["wid"]
-    eid_list = id_list[did]["eid"]
+    # create list of eids with just PARTSTUDIOS 
+    eid_list = [id_list[did]["eid"][j] for j, val in enumerate(id_list[did]["element types"]) if val == "onshape/partstudio"]
+    # eid_list = id_list[did]["eid"] # the original one just pulled all the EIDs
 
     #iterate through the WIDs
     for wid in range(len(wid_list)):
@@ -139,6 +144,37 @@ def feature_tree_count(did, id_list):
     feature_types = type_tally.value_counts()
 
     return feature_count, feature_types
+
+
+def asy_feature_tree_count(did, id_list):
+    # looking at one specific DID, tries all the WID & EID combos within the DID and gets a master count of how many 
+    # features and types of features there are 
+    asy_feature_count = 0
+    asy_feature_types = []
+
+    # looks inside the did_list.json file and identifies the list of WID and EIDs associated with this particular DID
+    wid_list = id_list[did]["wid"]
+    # create list of eids with just Asemblies EIDs 
+    eid_list = [id_list[did]["eid"][j] for j, val in enumerate(id_list[did]["element types"]) if val == "onshape/assembly"]
+
+    #iterate through the WIDs
+    for wid in range(len(wid_list)):
+            # then iterating through the EIDs for a given WID
+            for eid in range(len(eid_list)):
+                # calls the get_asy_feature_list function, gets a count and list of types as return. 
+                # If call fails, 0 as count and a blank list gets returned
+                fcount, ftypes = c.get_asy_feature_list(did, id_list[did]["wid"][wid], id_list[did]["eid"][eid])
+                # adds the count to the running tally
+                asy_feature_count = asy_feature_count + fcount
+                # appends the new list of types to the existing list
+                asy_feature_types.extend(ftypes)
+    
+    # tallying up all the feature types in this DID
+    type_tally = pd.Index(asy_feature_types)
+    asy_feature_types = type_tally.value_counts()
+
+    return asy_feature_count, asy_feature_types
+
 
 def count_versions (did):
     #call function to find out how many versions there are of the did
@@ -175,6 +211,10 @@ def createAttributes(did, did_list):
     feature_count, feature_types = feature_tree_count(did, did_list)
     case["Number of Features"] = feature_count
     #case = case.append(feature_types)
+
+    asy_feature_count, asy_feature_types = asy_feature_tree_count(did, did_list)
+    case["Number of Assembly Features"] = asy_feature_count
+    #case = case.append(asy_feature_types)
 
     case = case.rename(did)
     return case
