@@ -134,7 +134,7 @@ def feature_tree_count(did, id_list):
     
     # tallying up all the feature types in this DID
     type_tally = pd.Index(feature_types)
-    print(type_tally.value_counts())
+    feature_types = type_tally.value_counts()
 
     return feature_count, feature_types
 
@@ -145,8 +145,12 @@ def count_versions (did):
     return numVersions
 
 def did_from_url (url):
-    startIndex = url.find("/d/") + 3 #find where the start of /d/ for did + 3 indecies bc of "/" + "d" + "/"
-    endIndex = url.find("/w/")
+    startIndex = url.find("/documents/") + 11 #3 #find where the start of /d/ for did + 3 indecies bc of "/" + "d" + "/"
+    try:
+        endIndex = url.find("/w")
+    
+    except:
+        endIndex = url.find("/v")
     did = "" #initialize did as a str
 
     #build did from url chr by chr
@@ -168,14 +172,18 @@ def createAttributes(did, did_list):
 
     feature_count, feature_types = feature_tree_count(did, did_list)
     case["Number of Features"] = feature_count
+    #case = case.append(feature_types)
+
     case = case.rename(did)
     return case
 
+attribute_list = ['Number of Features', 'Number of Parts', 'Number of Total Elements', 'Number of Versions', 'Number of Workspaces', 'Parts Missing Mass', 'application/step', 'application/stl', 'onshape-app/com.onshape.api-explorer', 'onshape-app/drawing', 'onshape-app/materials', 'onshape/assembly', 'onshape/billofmaterials', 'onshape/featurestudio', 'onshape/partstudio', \
+    "newSketch", "extrude", "revolve", "sweep", "cPlane", "loft", "thicken", "enclose", "fillet", "chamfer", "draft", "rib", "shell", "hole", "linearPattern", "circularPattern", "curvePattern", "mirror", "booleanBodies", "splitPart", "transform", "wrap", "deleteBodies", "modifyFillet", "deleteFace", "moveFace", "replaceFace", "offsetSurface", "fill", "extendSurface", "helix", "fitSpline", "projectCurves", "bridgingCurve", "compositeCurve", "mateConnector", "importDerived", "assignVariable", "compositePart", "sheetMetalStart", "sheetMetalFlange", "sheetMetalHem", "sheetMetalTab", "sheetMetalMakeJoint", "sheetMetalCorner", "sheetMetalBendRelief", "sheetMetalJoint", "sheetMetalEnd"]
 
 def createTestSet(did_list):
     # this function takes in a list of IDs and then constructs a dataset 
     # that is n by m, in which n is the number of DIDs and m is number of variables.
-    data = pd.DataFrame()
+    data = pd.DataFrame(columns = attribute_list)
     for did in list(did_list.keys()):
         case = createAttributes(did, did_list)
         data = data.append(case)
