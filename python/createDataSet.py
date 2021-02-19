@@ -182,7 +182,7 @@ def count_versions (did):
 
     return numVersions
 
-def did_from_url (url):
+def did_from_url(url):
     startIndex = url.find("/documents/") + 11 #3 #find where the start of /d/ for did + 3 indecies bc of "/" + "d" + "/"
     try:
         endIndex = url.find("/w")
@@ -195,6 +195,26 @@ def did_from_url (url):
     for i in range (startIndex, endIndex):
         did += url[i]
     return did
+
+def userWIDEID(did):
+    items = {}
+    # create a dictionary that will store the lists of wids and eids
+    did_components = {}
+    search_ws = c.get_workspaces(search_did)
+    did_components["wid"] = search_ws
+
+    search_eid, element_type = c.element_list(search_did, search_ws)
+    did_components["eid"] = search_eid
+    ##adding the element types
+    did_components["element types"] = element_type
+
+    items[search_did] = did_components
+
+    #put document ID values in json file called did_list.json
+    #with open("did_list.json", "w") as json_file:
+    #    json.dump(items, json_file)
+
+    return items
 
 def createAttributes(did, did_list):
     # this function takes in a did and its did list to create an case to add to dataset 
@@ -210,17 +230,19 @@ def createAttributes(did, did_list):
 
     feature_count, feature_types = feature_tree_count(did, did_list)
     case["Number of Features"] = feature_count
-    #case = case.append(feature_types)
+    case = case.append(feature_types)
 
     asy_feature_count, asy_feature_types = asy_feature_tree_count(did, did_list)
     case["Number of Assembly Features"] = asy_feature_count
-    #case = case.append(asy_feature_types)
+    case = case.append(asy_feature_types)
 
     case = case.rename(did)
     return case
 
-attribute_list = ['Number of Features', 'Number of Parts', 'Number of Total Elements', 'Number of Versions', 'Number of Workspaces', 'Parts Missing Mass', 'application/step', 'application/stl', 'onshape-app/com.onshape.api-explorer', 'onshape-app/drawing', 'onshape-app/materials', 'onshape/assembly', 'onshape/billofmaterials', 'onshape/featurestudio', 'onshape/partstudio', \
-    "newSketch", "extrude", "revolve", "sweep", "cPlane", "loft", "thicken", "enclose", "fillet", "chamfer", "draft", "rib", "shell", "hole", "linearPattern", "circularPattern", "curvePattern", "mirror", "booleanBodies", "splitPart", "transform", "wrap", "deleteBodies", "modifyFillet", "deleteFace", "moveFace", "replaceFace", "offsetSurface", "fill", "extendSurface", "helix", "fitSpline", "projectCurves", "bridgingCurve", "compositeCurve", "mateConnector", "importDerived", "assignVariable", "compositePart", "sheetMetalStart", "sheetMetalFlange", "sheetMetalHem", "sheetMetalTab", "sheetMetalMakeJoint", "sheetMetalCorner", "sheetMetalBendRelief", "sheetMetalJoint", "sheetMetalEnd"]
+#attribute_list = ['Number of Features', 'Number of Parts', 'Number of Total Elements', 'Number of Versions', 'Number of Workspaces', 'Parts Missing Mass', 'application/step', 'application/stl', 'onshape-app/com.onshape.api-explorer', 'onshape-app/drawing', 'onshape-app/materials', 'onshape/assembly', 'onshape/billofmaterials', 'onshape/featurestudio', 'onshape/partstudio', \
+#    "newSketch", "extrude", "revolve", "sweep", "cPlane", "loft", "thicken", "enclose", "fillet", "chamfer", "draft", "rib", "shell", "hole", "linearPattern", "circularPattern", "curvePattern", "mirror", "booleanBodies", "splitPart", "transform", "wrap", "deleteBodies", "modifyFillet", "deleteFace", "moveFace", "replaceFace", "offsetSurface", "fill", "extendSurface", "helix", "fitSpline", "projectCurves", "bridgingCurve", "compositeCurve", "mateConnector", "importDerived", "assignVariable", "compositePart", "sheetMetalStart", "sheetMetalFlange", "sheetMetalHem", "sheetMetalTab", "sheetMetalMakeJoint", "sheetMetalCorner", "sheetMetalBendRelief", "sheetMetalJoint", "sheetMetalEnd" \
+#    "MATE_CONNECTOR", "FASTENED", "REVOLUTE", "SLIDER", "PLANAR", "CYLINDRICAL", "PIN_SLOT", "BALL", "PARALLEL", "TANGENT", "MATE_GROUP", "GEAR", "RACK_AND_PINION", "SCREW", "LINEAR_MATE", "LINEAR_PATTERN", "CIRCULAR_PATTERN"]
+attribute_list = ['Number of Features', 'Number of Parts', 'Number of Total Elements', 'Number of Versions', 'Number of Workspaces', 'Parts Missing Mass', 'application/step', 'application/stl', 'onshape-app/com.onshape.api-explorer', 'onshape-app/drawing', 'onshape-app/materials', 'onshape/assembly', 'onshape/billofmaterials', 'onshape/featurestudio', 'onshape/partstudio', 'newSketch', 'extrude', 'revolve', 'sweep', 'cPlane', 'loft', 'thicken', 'enclose', 'fillet', 'chamfer', 'draft', 'rib', 'shell', 'hole', 'linearPattern', 'circularPattern', 'curvePattern', 'mirror', 'booleanBodies', 'splitPart', 'transform', 'wrap', 'deleteBodies', 'modifyFillet', 'deleteFace', 'moveFace', 'replaceFace', 'offsetSurface', 'fill', 'extendSurface', 'helix', 'fitSpline', 'projectCurves', 'bridgingCurve', 'compositeCurve', 'mateConnector', 'importDerived', 'assignVariable', 'compositePart', 'sheetMetalStart', 'sheetMetalFlange', 'sheetMetalHem', 'sheetMetalTab', 'sheetMetalMakeJoint', 'sheetMetalCorner', 'sheetMetalBendRelief', 'sheetMetalJoint', 'sheetMetalEnd', 'sheetMetalEndMATE_CONNECTOR', 'FASTENED', 'REVOLUTE', 'SLIDER', 'PLANAR', 'CYLINDRICAL', 'PIN_SLOT', 'BALL', 'PARALLEL', 'TANGENT', 'MATE_GROUP', 'GEAR', 'RACK_AND_PINION', 'SCREW', 'LINEAR_MATE', 'LINEAR_PATTERN', 'CIRCULAR_PATTERN', 'Number of Assembly Features']
 
 def createTestSet(did_list):
     # this function takes in a list of IDs and then constructs a dataset 
@@ -265,30 +287,6 @@ print("\n\n")
 filename = "SampleDataset.csv"
 #firstdataset = pd.DataFrame(columns = attribute_list)
 #firstdataset.to_csv(filename, header= True)
-
-
 new_dataset = createTestSet(idList)
-updateDataset(filename, new_dataset)
+#updateDataset(filename, new_dataset)
 ######################################################################################################
-
-
-#did = list(idList.keys())[0]
-#print(did)
-#print("Number of elements in this document: " + str(element_qty_rating(did, idList)))
-#print("Number of workspaces in this document: " + str(workspaces_qty_rating(did, idList)))
-#print("Element Breakdown: ")
-#print(element_breakdown(did, idList))
-#c = element_breakdown(did, idList)
-#print(c["onshape/partstudio"])
-
-# mass properties test
-#missingMassCount, numParts = get_mass_properties(did, idList)
-#print(missingMassCount)
-#print(numParts)
-
-# version count test
-# print(count_versions(did))
-
-# did from url test
-#url = "https://cad.onshape.com/d/bac5ea84d6aad3153db5452c/w/24321161ec81bce2b1df6cda/e/f20c6cb4fa20fa25f30734ff/"
-#print(did_from_url(url))

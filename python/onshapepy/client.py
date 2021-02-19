@@ -451,7 +451,7 @@ class Client():
             return feature_count, asy_feature_types
         else:
             res = res.json()
-        
+            feature_count = len(res["features"])
             for i in range(feature_count):
                 try:
                     # Rename "circular" to "circular pattern" for better clarity
