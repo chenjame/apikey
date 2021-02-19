@@ -100,6 +100,8 @@ def get_mass_properties(did, id_list):
     # create list of eids with just PARTSTUDIOS 
     partsList= [id_list[did]["eid"][j] for j, val in enumerate(id_list[did]["element types"]) if val == "onshape/partstudio"]
     
+    #assemblyList= [id_list[did]["eid"][j] for j, val in enumerate(id_list[did]["element types"]) if val == "onshape/assembly"]
+
     # set widList as the list of wid for simplicity
     widList = id_list[did]["wid"]
     # count num of parts without mass/material and num of elements in eids
