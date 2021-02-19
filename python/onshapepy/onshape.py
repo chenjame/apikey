@@ -83,7 +83,8 @@ class Onshape():
                 raise ValueError('%s is not valid json' % creds)
 
         if self._logging:
-            utils.log('onshape instance created: url = %s, access key = %s' % (self._url, self._access_key))
+            #utils.log('onshape instance created: url = %s, access key = %s' % (self._url, self._access_key))
+            pass
 
     def _make_nonce(self):
         '''
@@ -197,7 +198,7 @@ class Onshape():
         if self._logging:
             #utils.log(body)
             #utils.log(req_headers)
-            utils.log('request url: ' + url) # turned this back on to see the URLs being called - James
+            #utils.log('request url: ' + url) # turned this back on to see the URLs being called - James
             ## commented out above to create silence in terminal
             pass
             

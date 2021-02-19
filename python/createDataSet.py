@@ -264,15 +264,17 @@ idList = userWIDEID(did_from_url(url_name))
 #userInput=input("Enter Keyword Search: ")
 #userBase=int(input("Enter Domain Type (0 self, 1, 2, 3, 4 public)  4 for public, 0 for my docs: "))
 #searchRange = int(input("Enter Number of Searches: ")) 
-queryList = ["toy","anime"]
+
+queryList = ["roller", "oil rig", "pot", "747", "lamp", "snow plow", "tractor", "storage", "design", "ikea", "gearbox",  "robot", "construct", "wings", "castle", "drone", "crane", "headphone"]
 userBase =4
-searchRange =3
+searchRange =20
 for query in queryList:
     idList = search_onshape_query(query, userBase, searchRange)
 
     filename = "SampleDataset.csv"
     new_dataset = createTestSet(idList)
     updateDataset(filename, new_dataset)
+    print(query)
 
 ##idList will contain all did, wid, and eid saved to the did_list.json
 #idList = search_onshape_query(userInput, userBase, searchRange)
