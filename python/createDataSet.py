@@ -192,7 +192,17 @@ def createTestSet(did_list):
     data = data.fillna(0)
     return data
 
+def updateDataset(filename, new_dataset):
+    list_dataset = []
+    og_dataset = pd.read_csv(filename,index_col=0, header=0)
+    
+    list_dataset.append(og_dataset)
+    list_dataset.append(new_dataset)
 
+    master_dataset = pd.concat(list_dataset, axis=0)
+    
+    master_dataset.to_csv(filename, header=True)
+    print("Your dataset has been updated!")
 
 ################################## Uncomment this Area to Call QUERY##################################
 userInput=input("Enter Keyword Search: ")
@@ -210,8 +220,15 @@ print("\n\n")
 #did = "bac5ea84d6aad3153db5452c" 
 #idList = {"bac5ea84d6aad3153db5452c": {"wid": ["24321161ec81bce2b1df6cda", "b924da502c3f8bf01ed95c05"], "eid": ["f20c6cb4fa20fa25f30734ff", "07fc595ebdaf9eb383e97276", "dc93dd30f1d4c0251d76ab3e", "880daf10f99c227b26189f6c", "07ee6adf4c5269d34f572d3a", "7a0f8b1e3cf03cf20c957922", "5081b4aa63de5997415b72de", "013bab8b899efd6b32701bb2", "789cd84e63d6f8c534c072ff", "d3591b03919ce594327c6de5", "b82ff955383aba26a6315a1e"], "element types": ["onshape/partstudio", "application/stl", "onshape-app/com.onshape.api-explorer", "onshape/partstudio", "onshape/assembly", "onshape-app/materials", "onshape/featurestudio", "onshape-app/drawing", "onshape/billofmaterials", "application/step", "onshape/partstudio"]}}
 #createAttributes(did, did_list)
-dataset = createTestSet(idList)
-dataset.to_csv("SampleDataset.csv",header=True)
+
+
+filename = "SampleDataset.csv"
+#firstdataset = pd.DataFrame(columns = attribute_list)
+#firstdataset.to_csv(filename, header= True)
+
+
+new_dataset = createTestSet(idList)
+updateDataset(filename, new_dataset)
 ######################################################################################################
 
 

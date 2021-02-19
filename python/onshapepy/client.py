@@ -431,3 +431,50 @@ class Client():
             except TypeError:
                 count = 0
             return count #returns int of how many versions there are in the did
+
+
+    def get_asy_feature_list(self, did, wid, eid):
+        '''
+        ''' 
+        # list to store all the feature types from the response
+        asy_feature_types = []
+
+        # makes Get Feature List API call using specified DID, WID, and EID
+        res = self._api.request('get', '/api/assemblies/d/' + did + "/w/" + wid + "/e/" + eid + "/features")#?withThumbnails=false")
+        # convert res into a json object before indexing into it on the next line
+        #res = res.json()
+        
+        
+        if res == 400:
+            # if API call fails, then the WID and EID combo is no good. Return 0 as the count and the blank feature_types list
+            feature_count = 0
+            return feature_count, asy_feature_types
+        else:
+            res = res.json()
+        
+            for i in range(feature_count):
+                try:
+                    # Rename "circular" to "circular pattern" for better clarity
+                    if res["features"][i]["message"]["parameters"][0]["message"]["value"] == "CIRCULAR":
+                        asy_feature_types.append("CIRCULAR_PATTERN")
+                    # Rename "on entity" to "mate connector" for better clarity
+                    elif res["features"][i]["message"]["parameters"][0]["message"]["value"] == "ON_ENTITY":
+                        asy_feature_types.append("MATE_CONNECTOR")
+                    # both linear pattern and linear mate are the "linear" in the field I'm looking at,
+                    #  this differentiates between the two
+                    elif res["features"][i]["message"]["parameters"][0]["message"]["value"] == "LINEAR":
+                        if res["features"][i]["message"]["parameters"][0]["message"]["enumName"] == "Pattern type":
+                            asy_feature_types.append("LINEAR_PATTERN")
+                        else:
+                            asy_feature_types.append("LINEAR_MATE")
+                    # if none of the special conditions apply, then just record the normal result 
+                    else:
+                        asy_feature_types.append(res["features"][i]["message"]["parameters"][0]["message"]["value"])
+                except KeyError:
+                    # Tangent mate and mate group features follow a different pattern, so handling them separately
+                    if res["features"][i]["message"]["featureType"] == "geometryMate":
+                        asy_feature_types.append("TANGENT")
+                    elif res["features"][i]["message"]["featureType"] == "mateGroup":
+                        asy_feature_types.append("MATE_GROUP")
+            
+            return feature_count, asy_feature_types
