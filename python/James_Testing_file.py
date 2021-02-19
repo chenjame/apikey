@@ -3,14 +3,59 @@ import sys
 from onshapepy.client import Client
 import pandas as pd
 
-with open('did_list.json') as f:
+with open('RES_OUTPUT.json') as f:
   infile = json.load(f)
 
+"""
 stacks = {
     'cad': 'https://cad.onshape.com'
 }
 
 c = Client(stack=stacks['cad'], logging=True)
+"""
+
+res = infile
+asy_feature_types = []
+
+feature_count = len(res["features"])
+
+#print('\n["features"][i]["message"]["parameters"][0]["message"]["value"]')
+
+# add each new feature type found to the list of feature types
+for i in range(feature_count):
+  try:
+    if res["features"][i]["message"]["parameters"][0]["message"]["value"] == "CIRCULAR":
+      asy_feature_types.append("CIRCULAR_PATTERN")
+    elif res["features"][i]["message"]["parameters"][0]["message"]["value"] == "ON_ENTITY":
+      asy_feature_types.append("MATE_CONNECTOR")
+    elif res["features"][i]["message"]["parameters"][0]["message"]["value"] == "LINEAR":
+      if res["features"][i]["message"]["parameters"][0]["message"]["enumName"] == "Pattern type":
+        asy_feature_types.append("LINEAR_PATTERN")
+      else:
+        asy_feature_types.append("LINEAR_MATE")
+    else:
+      asy_feature_types.append(res["features"][i]["message"]["parameters"][0]["message"]["value"])
+  except KeyError:
+    #print("key error")
+    if res["features"][i]["message"]["featureType"] == "geometryMate":
+      asy_feature_types.append("TANGENT")
+    elif res["features"][i]["message"]["featureType"] == "mateGroup":
+      asy_feature_types.append("MATE_GROUP")
+
+
+  
+  
+
+print("\n")
+#val = res["features"][0]["message"]["parameters"][0]["message"]["value"]
+#print(val)
+print("Features: ", feature_count)
+print("Features: ", asy_feature_types)
+
+
+
+##################################################################
+
 
 #items = infile["items"][0]
 #print("isEnterpriseOwned" in items)
@@ -37,7 +82,7 @@ for i in range(feature_count):
 print("List of features:", feature_types)
 
 '''
-
+"""
 
 did = "47b0488b3684bd60799b73a2"
 #print(len(infile[did]["wid"]))
@@ -72,7 +117,7 @@ print(type_tally.value_counts())
 
 
 
-
+"""
 
 
 """
@@ -85,6 +130,3 @@ count, testlist = c.get_feature_list(did, wid, eid)
 print(count)
 print(testlist)
 """
-
-
-#print(len(infile))
