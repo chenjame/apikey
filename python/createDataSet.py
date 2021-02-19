@@ -229,8 +229,7 @@ def createAttributes(did, did_list):
     case = case.rename(did)
     return case
 
-attribute_list = ['Number of Parts Features', 'Number of Parts', 'Number of Total Elements', 'Number of Versions', 'Number of Workspaces', 'Parts Missing Mass', 'application/step', 'application/stl', 'onshape-app/com.onshape.api-explorer', 'onshape-app/drawing', 'onshape-app/materials', 'onshape/assembly', 'onshape/billofmaterials', 'onshape/featurestudio', 'onshape/partstudio', 'newSketch', 'extrude', 'revolve', 'sweep', 'cPlane', 'loft', 'thicken', 'enclose', 'fillet', 'chamfer', 'draft', 'rib', 'shell', 'hole', 'linearPattern', 'circularPattern', 'curvePattern', 'mirror', 'booleanBodies', 'splitPart', 'transform', 'wrap', 'deleteBodies', 'modifyFillet', 'deleteFace', 'moveFace', 'replaceFace', 'offsetSurface', 'fill', 'extendSurface', 'helix', 'fitSpline', 'projectCurves', 'bridgingCurve', 'compositeCurve', 'mateConnector', 'importDerived', 'assignVariable', 'compositePart', 'sheetMetalStart', 'sheetMetalFlange', 'sheetMetalHem', 'sheetMetalTab', 'sheetMetalMakeJoint', 'sheetMetalCorner', 'sheetMetalBendRelief', 'sheetMetalJoint', 'sheetMetalEnd', 'MATE_CONNECTOR', 'FASTENED', 'REVOLUTE', 'SLIDER', 'PLANAR', 'CYLINDRICAL', 'PIN_SLOT', 'BALL', 'PARALLEL', 'TANGENT', 'MATE_GROUP', 'GEAR', 'RACK_AND_PINION', 'SCREW', 'LINEAR_MATE', 'LINEAR_PATTERN', 'CIRCULAR_PATTERN', 'Number of Assembly Features']
-
+attribute_list = ['Number of Parts Features', 'Number of Parts', 'Number of Total Elements', 'Number of Versions', 'Number of Workspaces', 'Parts Missing Mass', 'application/step', 'application/stl', 'onshape-app/com.onshape.api-explorer', 'onshape-app/drawing', 'onshape-app/materials', 'onshape/assembly', 'onshape/billofmaterials', 'onshape/featurestudio', 'onshape/partstudio', 'newSketch', 'extrude', 'revolve', 'sweep', 'cPlane', 'loft', 'thicken', 'enclose', 'fillet', 'chamfer', 'draft', 'rib', 'shell', 'hole', 'linearPattern', 'circularPattern', 'curvePattern', 'mirror', 'booleanBodies', 'splitPart', 'transform', 'wrap', 'deleteBodies', 'modifyFillet', 'deleteFace', 'moveFace', 'replaceFace', 'offsetSurface', 'fill', 'extendSurface', 'helix', 'fitSpline', 'projectCurves', 'bridgingCurve', 'compositeCurve', 'mateConnector', 'importDerived', 'assignVariable', 'compositePart', 'sheetMetalStart', 'sheetMetalFlange', 'sheetMetalHem', 'sheetMetalTab', 'sheetMetalMakeJoint', 'sheetMetalCorner', 'sheetMetalBendRelief', 'sheetMetalJoint', 'sheetMetalEnd', 'MATE_CONNECTOR', 'FASTENED', 'REVOLUTE', 'SLIDER', 'PLANAR', 'CYLINDRICAL', 'PIN_SLOT', 'BALL', 'PARALLEL', 'TANGENT', 'MATE_GROUP', 'GEAR', 'RACK_AND_PINION', 'SCREW', 'LINEAR_MATE', 'LINEAR_PATTERN', 'CIRCULAR_PATTERN', 'UNACCOUNTED_ASY_FEATURE', 'Number of Assembly Features']
 def createTestSet(did_list):
     # this function takes in a list of IDs and then constructs a dataset 
     # that is n by m, in which n is the number of DIDs and m is number of variables.
@@ -254,11 +253,12 @@ def updateDataset(filename, new_dataset):
     print("Your dataset has been updated!")
 
 ################################## Uncomment this Area to Call QUERY##################################
-'''
+"""
 # This is for manual URL input
 url_name = input("Enter url: ")
 idList = userWIDEID(did_from_url(url_name))
-'''
+"""
+
 # This is for building did list searching with keywords
 '''
 userInput=input("Enter Keyword Search: ")
@@ -274,16 +274,16 @@ idList = search_onshape_query(userInput, userBase, searchRange)
 #######################################Create Dataset#################################################
 #createAttributes(did, did_list)
 ##in case someone deletes sampledataset
-
+"""
 filename = "SampleDataset.csv"
 firstdataset = pd.DataFrame(columns = attribute_list)
 firstdataset.to_csv(filename, header= True)
-
+"""
 
 #########################################Update Dataset##############################################
-'''
+
 filename = "SampleDataset.csv"
 new_dataset = createTestSet(idList)
 updateDataset(filename, new_dataset)
-'''
+
 ######################################################################################################

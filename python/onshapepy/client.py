@@ -455,7 +455,9 @@ class Client():
             for i in range(feature_count):
                 try:
                     # Rename "circular" to "circular pattern" for better clarity
-                    if res["features"][i]["message"]["parameters"][0]["message"]["value"] == "CIRCULAR":
+                    if res["features"][i]["typeName"] == "BTExplosion":
+                        asy_feature_types.append("EXPLODED_VIEW")
+                    elif res["features"][i]["message"]["parameters"][0]["message"]["value"] == "CIRCULAR":
                         asy_feature_types.append("CIRCULAR_PATTERN")
                     # Rename "on entity" to "mate connector" for better clarity
                     elif res["features"][i]["message"]["parameters"][0]["message"]["value"] == "ON_ENTITY":
@@ -471,10 +473,17 @@ class Client():
                     else:
                         asy_feature_types.append(res["features"][i]["message"]["parameters"][0]["message"]["value"])
                 except KeyError:
-                    # Tangent mate and mate group features follow a different pattern, so handling them separately
-                    if res["features"][i]["message"]["featureType"] == "geometryMate":
-                        asy_feature_types.append("TANGENT")
-                    elif res["features"][i]["message"]["featureType"] == "mateGroup":
-                        asy_feature_types.append("MATE_GROUP")
+                    #print("key error")
+                    try:
+                        if res["features"][i]["message"]["featureType"] == "geometryMate":
+                            asy_feature_types.append("TANGENT")
+                        elif res["features"][i]["message"]["featureType"] == "mateGroup":
+                            asy_feature_types.append("MATE_GROUP")
+                    except:
+                        print("\n\n\nA wild Assembly Feature Appeared\n\n\n")
+                        asy_feature_types.append("UNACCOUNTED_ASY_FEATURE")
+                except IndexError:
+                    print("\n\n\nA wild Assembly Feature Appeared\n\n\n")
+                    asy_feature_types.append("UNACCOUNTED_ASY_FEATURE")
             
             return feature_count, asy_feature_types

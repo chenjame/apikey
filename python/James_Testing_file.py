@@ -6,10 +6,6 @@ import pandas as pd
 with open('RES_OUTPUT.json') as f:
   infile = json.load(f)
 
-import assignScore as Ass
-import onshapepy.client as cl
-
-print("success")
 
 
 """
@@ -25,7 +21,6 @@ res = infile
 asy_feature_types = []
 
 
-"""
 feature_count = len(res["features"])
 
 #print('\n["features"][i]["message"]["parameters"][0]["message"]["value"]')
@@ -33,7 +28,9 @@ feature_count = len(res["features"])
 # add each new feature type found to the list of feature types
 for i in range(feature_count):
   try:
-    if res["features"][i]["message"]["parameters"][0]["message"]["value"] == "CIRCULAR":
+    if res["features"][i]["typeName"] == "BTExplosion":
+      asy_feature_types.append("EXPLODED_VIEW")
+    elif res["features"][i]["message"]["parameters"][0]["message"]["value"] == "CIRCULAR":
       asy_feature_types.append("CIRCULAR_PATTERN")
     elif res["features"][i]["message"]["parameters"][0]["message"]["value"] == "ON_ENTITY":
       asy_feature_types.append("MATE_CONNECTOR")
@@ -46,16 +43,24 @@ for i in range(feature_count):
       asy_feature_types.append(res["features"][i]["message"]["parameters"][0]["message"]["value"])
   except KeyError:
     #print("key error")
-    if res["features"][i]["message"]["featureType"] == "geometryMate":
-      asy_feature_types.append("TANGENT")
-    elif res["features"][i]["message"]["featureType"] == "mateGroup":
-      asy_feature_types.append("MATE_GROUP")
+    try:
+      if res["features"][i]["message"]["featureType"] == "geometryMate":
+        asy_feature_types.append("TANGENT")
+      elif res["features"][i]["message"]["featureType"] == "mateGroup":
+        asy_feature_types.append("MATE_GROUP")
+    except:
+      print("\n\n\n\n\nA wild Assembly Feature Appeared\n\n\n\n\n\n\n")
+      asy_feature_types.append("UNACCOUNTED_ASY_FEATURE")
+  except IndexError:
+    print("\n\n\n\n\nA wild Assembly Feature Appeared\n\n\n\n\n\n\n")
+    asy_feature_types.append("UNACCOUNTED_ASY_FEATURE")
+    
 
 
-print("\n")
+#print("\n")
 print("Features: ", feature_count)
 print("Features: ", asy_feature_types)
-"""
+
 
 
 ##################################################################
