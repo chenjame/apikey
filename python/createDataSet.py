@@ -274,10 +274,13 @@ idList = search_onshape_query(userInput, userBase, searchRange)
 #######################################Create Dataset#################################################
 #createAttributes(did, did_list)
 ##in case someone deletes sampledataset
+'''
 filename = "SampleDataset.csv"
 firstdataset = pd.DataFrame(columns = attribute_list)
 firstdataset.to_csv(filename, header= True)
+'''
 
+#########################################Update Dataset##############################################
 '''
 filename = "SampleDataset.csv"
 new_dataset = createTestSet(idList)
