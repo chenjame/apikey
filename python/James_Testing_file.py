@@ -6,6 +6,12 @@ import pandas as pd
 with open('RES_OUTPUT.json') as f:
   infile = json.load(f)
 
+import assignScore as Ass
+import onshapepy.client as cl
+
+print("success")
+
+
 """
 stacks = {
     'cad': 'https://cad.onshape.com'
@@ -14,9 +20,12 @@ stacks = {
 c = Client(stack=stacks['cad'], logging=True)
 """
 
+
 res = infile
 asy_feature_types = []
 
+
+"""
 feature_count = len(res["features"])
 
 #print('\n["features"][i]["message"]["parameters"][0]["message"]["value"]')
@@ -43,15 +52,10 @@ for i in range(feature_count):
       asy_feature_types.append("MATE_GROUP")
 
 
-  
-  
-
 print("\n")
-#val = res["features"][0]["message"]["parameters"][0]["message"]["value"]
-#print(val)
 print("Features: ", feature_count)
 print("Features: ", asy_feature_types)
-
+"""
 
 
 ##################################################################
