@@ -166,6 +166,43 @@ def asy_feature_tree_count(did, id_list):
 
     return asy_feature_count, asy_feature_types
 
+def assembly_definition(did, id_list):
+    '''
+    looking at one specific DID, tries all the assembly EIDs within the DID and gets a master count of how many 
+    total instances, unique parts, linked parts, and # of sub-assemblies there are
+    '''
+
+    asm_unique_parts = 0
+    asm_total_instances = 0
+    asm_linked_parts = 0
+    asm_sub_asms = 0
+
+    eid_unique_parts = 0
+    eid_total_instances = 0
+    eid_linked_parts = 0
+    eid_sub_asms = 0
+
+    # looks inside the did_list.json file and identifies the list of WID and EIDs associated with this particular DID
+    wid_list = id_list[did]["wid"]
+    # create list of eids with just Asemblies EIDs 
+    eid_list = [id_list[did]["eid"][j] for j, val in enumerate(id_list[did]["element types"]) if val == "onshape/assembly"]
+
+    #iterate through the WIDs
+    for wid in wid_list:
+            # then iterating through the EIDs for a given WID
+            for eid in eid_list:
+                # calls the get_asy_feature_list function, gets a count and list of types as return. 
+                # If call fails, 0 as count and a blank list gets returned
+                eid_unique_parts, eid_total_instances, eid_linked_parts, eid_sub_asms = c.get_asy_instance_count(did, wid, eid)
+                
+                asm_unique_parts += eid_unique_parts
+                asm_total_instances += eid_total_instances
+                asm_linked_parts += eid_linked_parts
+                asm_sub_asms += eid_sub_asms
+                
+
+    return asm_unique_parts, asm_total_instances, asm_linked_parts, asm_sub_asms
+
 def count_versions (did):
     #call function to find out how many versions there are of the did
     numVersions = c.get_versions(did)
@@ -226,10 +263,17 @@ def createAttributes(did, did_list):
     case["Number of Assembly Features"] = asy_feature_count
     case = case.append(asy_feature_types)
 
+    asm_unique_parts, asm_total_instances, asm_linked_parts, asm_sub_asms = assembly_definition(did, did_list)
+    case["asm_unique_parts"] = asm_unique_parts
+    case["asm_total_instances"] = asm_total_instances
+    case["asm_linked_parts"] = asm_linked_parts
+    case["asm_sub_asms"] = asm_sub_asms
+
     case = case.rename(did)
     return case
 
-attribute_list = ['Number of Parts Features', 'Number of Parts', 'Number of Total Elements', 'Number of Versions', 'Number of Workspaces', 'Parts Missing Mass', 'application/step', 'application/stl', 'onshape-app/com.onshape.api-explorer', 'onshape-app/drawing', 'onshape-app/materials', 'onshape/assembly', 'onshape/billofmaterials', 'onshape/featurestudio', 'onshape/partstudio', 'newSketch', 'extrude', 'revolve', 'sweep', 'cPlane', 'loft', 'thicken', 'enclose', 'fillet', 'chamfer', 'draft', 'rib', 'shell', 'hole', 'linearPattern', 'circularPattern', 'curvePattern', 'mirror', 'booleanBodies', 'splitPart', 'transform', 'wrap', 'deleteBodies', 'modifyFillet', 'deleteFace', 'moveFace', 'replaceFace', 'offsetSurface', 'fill', 'extendSurface', 'helix', 'fitSpline', 'projectCurves', 'bridgingCurve', 'compositeCurve', 'mateConnector', 'importDerived', 'assignVariable', 'compositePart', 'sheetMetalStart', 'sheetMetalFlange', 'sheetMetalHem', 'sheetMetalTab', 'sheetMetalMakeJoint', 'sheetMetalCorner', 'sheetMetalBendRelief', 'sheetMetalJoint', 'sheetMetalEnd', 'MATE_CONNECTOR', 'FASTENED', 'REVOLUTE', 'SLIDER', 'PLANAR', 'CYLINDRICAL', 'PIN_SLOT', 'BALL', 'PARALLEL', 'TANGENT', 'MATE_GROUP', 'GEAR', 'RACK_AND_PINION', 'SCREW', 'LINEAR_MATE', 'LINEAR_PATTERN', 'CIRCULAR_PATTERN', 'UNACCOUNTED_ASY_FEATURE', 'Number of Assembly Features']
+attribute_list = ['Number of Parts Features', 'Number of Parts', 'Number of Total Elements', 'Number of Versions', 'Number of Workspaces', 'Parts Missing Mass', 'application/step', 'application/stl', 'onshape-app/com.onshape.api-explorer', 'onshape-app/drawing', 'onshape-app/materials', 'onshape/assembly', 'onshape/billofmaterials', 'onshape/featurestudio', 'onshape/partstudio', 'newSketch', 'extrude', 'revolve', 'sweep', 'cPlane', 'loft', 'thicken', 'enclose', 'fillet', 'chamfer', 'draft', 'rib', 'shell', 'hole', 'linearPattern', 'circularPattern', 'curvePattern', 'mirror', 'booleanBodies', 'splitPart', 'transform', 'wrap', 'deleteBodies', 'modifyFillet', 'deleteFace', 'moveFace', 'replaceFace', 'offsetSurface', 'fill', 'extendSurface', 'helix', 'fitSpline', 'projectCurves', 'bridgingCurve', 'compositeCurve', 'mateConnector', 'importDerived', 'assignVariable', 'compositePart', 'sheetMetalStart', 'sheetMetalFlange', 'sheetMetalHem', 'sheetMetalTab', 'sheetMetalMakeJoint', 'sheetMetalCorner', 'sheetMetalBendRelief', 'sheetMetalJoint', 'sheetMetalEnd', 'MATE_CONNECTOR', 'FASTENED', 'REVOLUTE', 'SLIDER', 'PLANAR', 'CYLINDRICAL', 'PIN_SLOT', 'BALL', 'PARALLEL', 'TANGENT', 'MATE_GROUP', 'GEAR', 'RACK_AND_PINION', 'SCREW', 'LINEAR_MATE', 'LINEAR_PATTERN', 'CIRCULAR_PATTERN', 'UNACCOUNTED_ASY_FEATURE', 'Number of Assembly Features', 'asm_unique_parts', 'asm_total_instances', 'asm_linked_parts', 'asm_sub_asms']
+
 def createTestSet(did_list):
     # this function takes in a list of IDs and then constructs a dataset 
     # that is n by m, in which n is the number of DIDs and m is number of variables.
@@ -253,11 +297,11 @@ def updateDataset(filename, new_dataset):
     print("Your dataset has been updated!")
 
 ################################## Uncomment this Area to Call QUERY##################################
-"""
+
 # This is for manual URL input
 url_name = input("Enter url: ")
 idList = userWIDEID(did_from_url(url_name))
-"""
+
 
 # This is for building did list searching with keywords
 
@@ -265,6 +309,7 @@ idList = userWIDEID(did_from_url(url_name))
 #userBase=int(input("Enter Domain Type (0 self, 1, 2, 3, 4 public)  4 for public, 0 for my docs: "))
 #searchRange = int(input("Enter Number of Searches: ")) 
 
+"""
 queryList = ["roller", "oil rig", "pot", "747", "lamp", "snow plow", "tractor", "storage", "design", "ikea", "gearbox",  "robot", "construct", "wings", "castle", "drone", "crane", "headphone"]
 userBase =4
 searchRange =20
@@ -275,6 +320,7 @@ for query in queryList:
     new_dataset = createTestSet(idList)
     updateDataset(filename, new_dataset)
     print(query)
+"""
 
 ##idList will contain all did, wid, and eid saved to the did_list.json
 #idList = search_onshape_query(userInput, userBase, searchRange)
@@ -292,9 +338,9 @@ firstdataset.to_csv(filename, header= True)
 """
 
 #########################################Update Dataset##############################################
-'''
+
 filename = "SampleDataset.csv"
 new_dataset = createTestSet(idList)
 updateDataset(filename, new_dataset)
-'''
+
 ######################################################################################################

@@ -4,7 +4,7 @@ from onshapepy.client import Client
 import pandas as pd
 
 with open('RES_OUTPUT.json') as f:
-  infile = json.load(f)
+  res = json.load(f)
 
 
 
@@ -17,6 +17,52 @@ c = Client(stack=stacks['cad'], logging=True)
 """
 
 
+### Counting assembly unique parts, instances, and linked parts ###########
+
+"""
+num_unique_parts = 0
+num_total_instances = 0
+num_linked_parts = 0
+num_sub_asms = 0
+
+num_unique_parts = len(res["parts"])
+num_total_instances = len(res["rootAssembly"]["instances"])
+num_sub_asms = len(res["subAssemblies"])
+
+print("unique parts:", num_unique_parts)
+print("total instances:", num_total_instances)
+print("sub asms:", num_sub_asms)
+
+current_did = "47b0488b3684bd60799b73a2"
+for i in range(num_unique_parts):
+  if res["parts"][i]["documentId"] != current_did:
+    num_linked_parts += 1
+
+print("linked parts:", num_linked_parts)
+"""
+
+
+
+"""
+
+
+
+
+
+
+
+
+
+###########################################################################
+
+
+
+
+
+
+
+######### COUNTING FEATURES IN ASSEMBLIES############
+"""
 res = infile
 asy_feature_types = []
 
@@ -62,7 +108,7 @@ print("Features: ", feature_count)
 print("Features: ", asy_feature_types)
 
 
-
+"""
 ##################################################################
 
 

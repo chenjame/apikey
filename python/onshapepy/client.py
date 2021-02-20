@@ -487,3 +487,47 @@ class Client():
                     asy_feature_types.append("UNACCOUNTED_ASY_FEATURE")
             
             return feature_count, asy_feature_types
+
+    def get_asy_instance_count(self, did, wid, eid):
+        '''
+        Calls the "Assemly Definition" API call
+        ''' 
+        # Calculates number of total instances, unique parts, linked parts, and # of sub-assemblies
+        num_unique_parts = 0
+        num_total_instances = 0
+        num_linked_parts = 0
+        num_sub_asms = 0
+
+
+        # makes Get Feature List API call using specified DID, WID, and EID
+        res = self._api.request('get', '/api/assemblies/d/' + did + "/w/" + wid + "/e/" + eid)#?withThumbnails=false")
+        # convert res into a json object before indexing into it on the next line
+        #res = res.json()
+        
+        
+        if res == 400:
+            # if API call fails. Return 0 for all three
+            return num_unique_parts, num_total_instances, num_linked_parts, num_sub_asms
+        else:
+            res = res.json()
+            try:
+                num_unique_parts = len(res["parts"])
+                num_total_instances = len(res["rootAssembly"]["instances"])
+                num_sub_asms = len(res["subAssemblies"])
+
+                #print("unique parts:", num_unique_parts)
+                #print("total instances:", num_total_instances)
+                #print("sub asms:", num_sub_asms)
+
+                for i in range(num_unique_parts):
+                    # checks if ths document ID of each part, if not the same as current DID, then it's an external part
+                    if res["parts"][i]["documentId"] != did:
+                        num_linked_parts += 1
+            
+                return num_unique_parts, num_total_instances, num_linked_parts, num_sub_asms
+
+
+            except KeyError:
+                print("\n\n\nkey error\n\n\n")
+            except IndexError:
+                print("\n\n\nindex error\n\n\n")
