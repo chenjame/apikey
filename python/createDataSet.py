@@ -272,7 +272,7 @@ def createAttributes(did, did_list):
     case = case.rename(did)
     return case
 
-attribute_list = ['Number of Parts Features', 'Number of Parts', 'Number of Total Elements', 'Number of Versions', 'Number of Workspaces', 'Parts Missing Mass', 'application/step', 'application/stl', 'onshape-app/com.onshape.api-explorer', 'onshape-app/drawing', 'onshape-app/materials', 'onshape/assembly', 'onshape/billofmaterials', 'onshape/featurestudio', 'onshape/partstudio', 'newSketch', 'extrude', 'revolve', 'sweep', 'cPlane', 'loft', 'thicken', 'enclose', 'fillet', 'chamfer', 'draft', 'rib', 'shell', 'hole', 'linearPattern', 'circularPattern', 'curvePattern', 'mirror', 'booleanBodies', 'splitPart', 'transform', 'wrap', 'deleteBodies', 'modifyFillet', 'deleteFace', 'moveFace', 'replaceFace', 'offsetSurface', 'fill', 'extendSurface', 'helix', 'fitSpline', 'projectCurves', 'bridgingCurve', 'compositeCurve', 'mateConnector', 'importDerived', 'assignVariable', 'compositePart', 'sheetMetalStart', 'sheetMetalFlange', 'sheetMetalHem', 'sheetMetalTab', 'sheetMetalMakeJoint', 'sheetMetalCorner', 'sheetMetalBendRelief', 'sheetMetalJoint', 'sheetMetalEnd', 'MATE_CONNECTOR', 'FASTENED', 'REVOLUTE', 'SLIDER', 'PLANAR', 'CYLINDRICAL', 'PIN_SLOT', 'BALL', 'PARALLEL', 'TANGENT', 'MATE_GROUP', 'GEAR', 'RACK_AND_PINION', 'SCREW', 'LINEAR_MATE', 'LINEAR_PATTERN', 'CIRCULAR_PATTERN', 'UNACCOUNTED_ASY_FEATURE', 'Number of Assembly Features', 'asm_unique_parts', 'asm_total_instances', 'asm_linked_parts', 'asm_sub_asms']
+attribute_list = ['Number of Parts Features', 'Number of Parts', 'Number of Total Elements', 'Number of Versions', 'Number of Workspaces', 'Parts Missing Mass', 'application/step', 'application/stl', 'onshape-app/com.onshape.api-explorer', 'onshape-app/drawing', 'onshape-app/materials', 'onshape/assembly', 'onshape/billofmaterials', 'onshape/featurestudio', 'onshape/partstudio', 'newSketch', 'extrude', 'revolve', 'sweep', 'cPlane', 'loft', 'thicken', 'enclose', 'fillet', 'chamfer', 'draft', 'rib', 'shell', 'hole', 'linearPattern', 'circularPattern', 'curvePattern', 'mirror', 'booleanBodies', 'splitPart', 'transform', 'wrap', 'deleteBodies', 'modifyFillet', 'deleteFace', 'moveFace', 'replaceFace', 'offsetSurface', 'fill', 'extendSurface', 'helix', 'fitSpline', 'projectCurves', 'bridgingCurve', 'compositeCurve', 'mateConnector', 'importDerived', 'assignVariable', 'compositePart', 'sheetMetalStart', 'sheetMetalFlange', 'sheetMetalHem', 'sheetMetalTab', 'sheetMetalMakeJoint', 'sheetMetalCorner', 'sheetMetalBendRelief', 'sheetMetalJoint', 'sheetMetalEnd', 'importForeign', 'MATE_CONNECTOR', 'FASTENED', 'REVOLUTE', 'SLIDER', 'PLANAR', 'CYLINDRICAL', 'PIN_SLOT', 'BALL', 'PARALLEL', 'TANGENT', 'MATE_GROUP', 'GEAR', 'RACK_AND_PINION', 'SCREW', 'LINEAR_MATE', 'LINEAR_PATTERN', 'CIRCULAR_PATTERN', 'UNACCOUNTED_ASY_FEATURE', 'EXPLODED_VIEW', 'Number of Assembly Features', 'asm_unique_parts', 'asm_total_instances', 'asm_linked_parts', 'asm_sub_asms']
 
 def createTestSet(did_list):
     # this function takes in a list of IDs and then constructs a dataset 
@@ -297,11 +297,11 @@ def updateDataset(filename, new_dataset):
     print("Your dataset has been updated!")
 
 ################################## Uncomment this Area to Call QUERY##################################
-
+"""
 # This is for manual URL input
 url_name = input("Enter url: ")
 idList = userWIDEID(did_from_url(url_name))
-
+"""
 
 # This is for building did list searching with keywords
 
@@ -310,7 +310,14 @@ idList = userWIDEID(did_from_url(url_name))
 #searchRange = int(input("Enter Number of Searches: ")) 
 
 """
-queryList = ["roller", "oil rig", "pot", "747", "lamp", "snow plow", "tractor", "storage", "design", "ikea", "gearbox",  "robot", "construct", "wings", "castle", "drone", "crane", "headphone"]
+queryList = 
+
+#Kent:
+#["Keyboard", "closet", "turbine", "fixture", "hyperloop", "stove", "battleship", "ship", "school", "house", "structure", "engine", "bme", "roller", "oil rig", "pot", "747", "lamp", "snow plow"]
+
+#Kevin:
+#["tractor", "storage", "design", "ikea", "gearbox",  "robot", "anime", "construct", "wings", "castle", "drone", "crane", "headphone", "toy", "car", "vehicle", "plane", "conveyor", "motor", "printer", "heat"]
+
 userBase =4
 searchRange =20
 for query in queryList:
@@ -338,9 +345,26 @@ firstdataset.to_csv(filename, header= True)
 """
 
 #########################################Update Dataset##############################################
-
+"""
 filename = "SampleDataset.csv"
 new_dataset = createTestSet(idList)
 updateDataset(filename, new_dataset)
-
+"""
 ######################################################################################################
+
+################################# James' function looping through URLs################################
+"""
+df = pd.read_excel("URLs.xls", sheet_name=0)
+URLs = list(df['URL'])
+#print(URLs)
+#print(len(URLs))
+
+for url in URLs:
+    idList = userWIDEID(did_from_url(url))
+
+
+    filename = "SampleDataset.csv"
+    new_dataset = createTestSet(idList)
+    updateDataset(filename, new_dataset)
+
+"""

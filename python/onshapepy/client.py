@@ -497,8 +497,7 @@ class Client():
         num_total_instances = 0
         num_linked_parts = 0
         num_sub_asms = 0
-
-
+        
         # makes Get Feature List API call using specified DID, WID, and EID
         res = self._api.request('get', '/api/assemblies/d/' + did + "/w/" + wid + "/e/" + eid)#?withThumbnails=false")
         # convert res into a json object before indexing into it on the next line
