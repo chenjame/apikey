@@ -41,11 +41,12 @@ def assignScore(filename, case):
     weights = dataset.loc["weight",:].to_list()
 
     zscore_list = []
-    '''
-    if case["Number of Parts"] == 0: #,case["Number of Parts Features"] == 0]):
+    #print(case["Number of Parts"].values[0])
+    
+    if case["Number of Parts"].values[0] == 0: #,case["Number of Parts Features"] == 0]):
         finalscore = 0
         return finalscore
-    '''
+    
     for i in attributes:
         try:
             zscores = statistics.NormalDist(mu=mean[i], sigma=std[i]).zscore(case[i])
@@ -57,6 +58,7 @@ def assignScore(filename, case):
     
     percentile_zscore = statistics.NormalDist(mu=0, sigma=math.sqrt(len(attributes))).zscore(sum_zscore)
     finalscore = statistics.NormalDist().cdf(percentile_zscore)
+    finalscore = (finalscore * 10 -3)/7 *10
     finalscore = round(finalscore,3)
-    print(finalscore*10)
-    return finalscore*10
+    
+    return finalscore
