@@ -18,11 +18,11 @@ def concatFiles(all_files, final_filename):
     dataset.to_csv(final_filename, header = True)
     print("Your files have been stitched together!")
     return dataset
-
+'''
 all_files = ["completeDataset.csv", "newDataset.csv"]
 final_filename = "completeDataset.csv"
 full_dataset = concatFiles(all_files, final_filename)
-
+'''
 
 def getZScore(filename):
     dataset = pd.read_csv(filename, index_col=0, header=0)
@@ -62,7 +62,17 @@ did_zscores = getZScore(filename)
 #print(statistics.mean(did_zscores))
 
 masterdataset = pd.read_csv(filename, index_col=0, header=0)
+print(masterdataset.shape)
 masterdataset["score"] = did_zscores
 masterdataset.to_csv("completeDatasetScored.csv",header = True)
 #print( sum([1 for i in did_zscores if i <4 ]))
 '''
+df = pd.read_csv("completeDataset.csv", index_col = 0, header = 0)
+mean = df.mean()
+std = df.std(axis = 0)
+
+dataset = pd.DataFrame()
+dataset["mean"] = mean
+dataset["std"] = std
+dataset =dataset.T
+dataset.to_csv("weights.csv", header = True)
