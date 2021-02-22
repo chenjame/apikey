@@ -13,7 +13,7 @@ def main_function():
         userScoreText = "Uh Oh, Please Enter Correct URL"
         userScoreLabel.config(text = userScoreText)
     userData = d.createTestSet(idList)
-    userScore = a.assignScore("SampleDataset.csv", userData)
+    userScore = a.assignScore("weights.csv", userData)
     userScoreText = str(userScore) +" / 10"
     userScoreLabel.config(text = userScoreText)
     return

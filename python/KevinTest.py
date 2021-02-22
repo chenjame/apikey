@@ -68,11 +68,14 @@ masterdataset.to_csv("completeDatasetScored.csv",header = True)
 #print( sum([1 for i in did_zscores if i <4 ]))
 '''
 df = pd.read_csv("completeDataset.csv", index_col = 0, header = 0)
-mean = df.mean()
-std = df.std(axis = 0)
+print(df.columns.to_list())
+'''
+#mean = df.mean()
+#std = df.std(axis = 0)
 
 dataset = pd.DataFrame()
 dataset["mean"] = mean
 dataset["std"] = std
 dataset =dataset.T
 dataset.to_csv("weights.csv", header = True)
+'''
