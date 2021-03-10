@@ -20,6 +20,7 @@ def main_function():
 
 gui = tk.Tk()
 gui.geometry('300x110')
+gui.title("How Good is Your CAD?")
 L1 = tk.Label(gui, text="Insert Part/Assembly URL from Onshape: ")
 L1.pack(side = "top")
 E1 = tk.Entry(gui, bd =5, width = 35)
